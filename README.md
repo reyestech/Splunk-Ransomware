@@ -1,30 +1,34 @@
-# Splunk-Ransomware
+# Splunk.Bots
 
+<img src="https://i.imgur.com/WaIk6nd.png" height="80%" width="80%" alt="Disk Sanitization Steps"/> 
 
-
-
-
-<h1>Hector M. Reyes  | SOC Analysts </h1>
+<h1>Hector M. Reyes  | SOC Analysis </h1>
 </h1> Group 17: Script K™ | Boss of the SOC 2024 </h1>
 <h1> Splunk | Ransomware </h1>
 
 <h2> Ransomware </h2>  <br/> 
 After the excitement of yesterday, Alice has started to settle into her new job. Sadly, she realizes her new colleagues may not be the crack cybersecurity team she was led to believe before joining. Looking through her incident ticketing queue, she noticed a “critical” ticket was never addressed. Shaking her head, she begins to investigate. Apparently, on August 24th, Bob Smith (using a Windows 10 workstation named we8105desk) came back to his desk after working out and found his speakers blaring (click below to listen), his desktop image changed (see below) and his files inaccessible. Alice has seen this before... ransomware. After a quick conversation with Bob, Alice determines that Bob found a USB drive in the parking lot earlier in the day, plugged it into his desktop, and opened up a Word document on the USB drive called "Miranda_Tate_unveiled.dotm". With a resigned sigh, she begins to dig in.
 
-<h2>Tools Used</h2>  <br/> 
+ ### [Alternative Link | Google Docs | BeEF (Browser Exploitation Framework) Runbook](https://docs.google.com/document/d/e/2PACX-1vT3fUiv3aIfETn5UnAPTBZiZy51Tr_gemE1NAvd4zE3l_Dl0G29kL13-zOwEvSmVen152-rFbJfaqG1/pub)
+
+<h2>Tools Used</h2>
 
 - <b> Splunk | SIEM (Security Information and Event Management) </b> 
 - <b> Windows Sandbox | Sandboxie-Plus </b>
 - <b> VirusTotal | AlientVault </b>
+- <b> md5decrypt | REX Expressions </b>
 
+<img src="https://i.imgur.com/VtSXpfm.png" height="80%" width="80%" alt="Disk Sanitization Steps"/> 
 
-<img src="https://i.imgur.com/lcl7mD5.png" height="80%" width="80%" alt="Disk Sanitization Steps"/> 
-
-Pre-Engagement:  </b>
+https://imgur.com/VtSXpfm
+<h2>Pre-Engagement: </h2>
 We have two pieces of evidence that we need to examine before beginning our environment. First, we have the screen. The URL the attackers posted their ransomware note "Ransomware screenshot." Second, we have the voice memo ("Ransomware warning"). The memo seems to have intended to scare the victim in hopes that they would make a rash decision, possibly making a mistake, which would start by opening these URLs and extracting the content to look for evidence. 
 To do this, we will deploy a Sandboxed environment. It's perilous to open URLs from malicious links. Since we are using Windows Sandbox, we can safely go to both URLs. We can inspect the web-facing application and use the information to get some clues. We can then extract both the images and voice memo. The Sandbox environment allows us to open the properties of the files. We can use this data later when you analyze the Network Traffic in Splunk. <br /> 
 Ransomware Screenshot: 
 https://botscontent.netlify.app/v1/cerber-sshot.png  (Picture 1.1-1.2)
+
+
+<img src="https://i.imgur.com/5uOU9N1.png" height="80%" width="80%" alt="Disk Sanitization Steps"/> 
 
 Picture 1.1
 Picture 1.2
