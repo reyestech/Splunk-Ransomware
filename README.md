@@ -12,7 +12,7 @@
 <h2> Ransomware </h2>
 After the excitement of yesterday, Alice has started to settle into her new job. Sadly, she realizes her new colleagues may not be the crack cybersecurity team she was led to believe before joining. Looking through her incident ticketing queue, she noticed a “critical” ticket was never addressed. Shaking her head, she begins to investigate. Apparently, on August 24th, Bob Smith (using a Windows 10 workstation named we8105desk) came back to his desk after working out and found his speakers blaring (click below to listen), his desktop image changed (see below) and his files inaccessible. Alice has seen this before... ransomware. After a quick conversation with Bob, Alice determines that Bob found a USB drive in the parking lot earlier in the day, plugged it into his desktop, and opened up a Word document on the USB drive called "Miranda_Tate_unveiled.dotm". With a resigned sigh, she begins to dig in.
 
- ### [Alternative Link | Google Docs | BeEF (Browser Exploitation Framework) Runbook](https://docs.google.com/document/d/e/2PACX-1vT3fUiv3aIfETn5UnAPTBZiZy51Tr_gemE1NAvd4zE3l_Dl0G29kL13-zOwEvSmVen152-rFbJfaqG1/pub)
+ ### [Alternative Link | Google Docs | BeEF (Browser Exploitation Framework) Runbook](https://docs.google.com/document/d/e/2PACX-1vRonE9OQYFepOAGVK52PCcDdhpSIkfdVq5BI1hp7zVNXQ0YRnbsj6lrpyR3tTTK233x8zg62E4MsE6a/pub)
  
 <img src="https://i.imgur.com/5uOU9N1.png" height="80%" width="80%" alt="Disk Sanitization Steps"/> 
 
