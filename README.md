@@ -6,10 +6,15 @@
 </h1> Group 17: Script K™ | Boss of the SOC 2024 </h1>
 <h1> Splunk | Ransomware </h1>
 
+<img src="https://i.imgur.com/yo4r24g.png" height="80%" width="80%" alt="Disk Sanitization Steps"/> 
+</b> </b>
+
 <h2> Ransomware </h2>
 After the excitement of yesterday, Alice has started to settle into her new job. Sadly, she realizes her new colleagues may not be the crack cybersecurity team she was led to believe before joining. Looking through her incident ticketing queue, she noticed a “critical” ticket was never addressed. Shaking her head, she begins to investigate. Apparently, on August 24th, Bob Smith (using a Windows 10 workstation named we8105desk) came back to his desk after working out and found his speakers blaring (click below to listen), his desktop image changed (see below) and his files inaccessible. Alice has seen this before... ransomware. After a quick conversation with Bob, Alice determines that Bob found a USB drive in the parking lot earlier in the day, plugged it into his desktop, and opened up a Word document on the USB drive called "Miranda_Tate_unveiled.dotm". With a resigned sigh, she begins to dig in.
 
  ### [Alternative Link | Google Docs | BeEF (Browser Exploitation Framework) Runbook](https://docs.google.com/document/d/e/2PACX-1vT3fUiv3aIfETn5UnAPTBZiZy51Tr_gemE1NAvd4zE3l_Dl0G29kL13-zOwEvSmVen152-rFbJfaqG1/pub)
+ 
+<img src="https://i.imgur.com/5uOU9N1.png" height="80%" width="80%" alt="Disk Sanitization Steps"/> 
 
 <h2>Tools Used</h2>
 
@@ -25,25 +30,20 @@ We have two pieces of evidence that we need to examine before beginning our envi
 To do this, we will deploy a Sandboxed environment. It's perilous to open URLs from malicious links. Since we are using Windows Sandbox, we can safely go to both URLs. We can inspect the web-facing application and use the information to get some clues. We can then extract both the images and voice memo. The Sandbox environment allows us to open the properties of the files. We can use this data later when you analyze the Network Traffic in Splunk. <br /> 
 Ransomware Screenshot: 
 https://botscontent.netlify.app/v1/cerber-sshot.png  (Picture 1.1-1.2)
- <br />  <br /> 
+<br/><br/> 
 
-<img src="https://i.imgur.com/5uOU9N1.png" height="80%" width="80%" alt="Disk Sanitization Steps"/> 
- <br />  <br /> 
- 
 Picture 1.1  <br /> 
 <img src="https://i.imgur.com/63HM8LD.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 
-
 Picture 1.2  <br /> 
 <img src="https://i.imgur.com/U8wgtfW.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-
 
 Ransomware warning:  <br /> 
 https://botscontent.netlify.app/v1/cerber-sample-voice.mp3  (Picture 1.3)
 
 Picture 1.3 <br /> 
 <img src="https://i.imgur.com/lQcq4Jg.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</b> </b>
+<br /><br /> 
 
 Ransomware 200: (Pictures 1.4 – 1.7) <br /> 
 What was the most likely IPv4 address of we8105desk on 24AUG2016? <br /> 
@@ -56,7 +56,7 @@ What was the most likely IPv4 address of we8105desk on 24AUG2016? <br />
 - <b> Enter Search: index="botsv1" host=we8105desk
 - <b> Answer: 192.168.250.100
 
-Pictures 1.4
+Pictures 1.4 <br /> 
 <img src="https://i.imgur.com/jhkWtOk.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 
 Picture 1.5 <br /> 
@@ -67,8 +67,8 @@ Pictures 1.6 <br />
 
 Pictures 1.7 <br /> 
 <img src="https://i.imgur.com/mko7Ztb.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</b> </b>
- 
+<br /><br /> 
+
 Ransomware 201:  (Pictures 1.8) <br /> 
 Amongst the Suricata signatures that detected the Cerber malware, which one alerted the fewest number of times? Submit ONLY the signature ID value as the answer. <br /> 
 - <b> First, we need to determine where the signature could be located. We can access the source by going to the Suricata event logs. 
@@ -106,7 +106,7 @@ Pictures 2.0 <br />
  
 Pictures 2.1 <br /> 
 <img src="https://i.imgur.com/WMdezAR.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</b> </b>
+<br /><br /> 
  
 Ransomware 203: (Pictures 2.2-2.5)  <br /> 
 What was the first suspicious domain visited by we8105desk on 24 August 2016? <br /> 
@@ -127,9 +127,9 @@ Pictures 2.4  <br />
 <img src="https://i.imgur.com/SVmOXlo.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 
 Pictures 2.5 <br /> 
-<img src="https://i.imgur.com/ pxOEoUX.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</b> </b>
- 
+<img src="https://i.imgur.com/pxOEoUX.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<br /><br /> 
+
 Ransomware 204: (Pictures 2.6-2.9)  <br /> 
 What is the name of the USB key inserted by Bob Smith? <br /> 
 - <b> We can start by looking at we8105desk's winregistry and filtering for a USB.
@@ -147,7 +147,6 @@ What is the name of the USB key inserted by Bob Smith? <br />
 Pictures 2.6 <br /> 
 <img src="https://i.imgur.com/7EKTsck.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 
- 
 Pictures 2.7 <br /> 
 <img src="https://i.imgur.com/yHJL7bi.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 
@@ -156,7 +155,8 @@ Pictures 2.8  <br />
 
 Pictures 2.9 <br /> 
 <img src="https://i.imgur.com/qBFlcVC.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</b> </b>
+<br /><br /> 
+
 Ransomware 206: (Pictures 3.0)  <br /> 
 Bob Smith's workstation (we8105desk) was connected to a file server during the ransomware outbreak. What is the IPv4 address of the file server? <br /> 
 - <b> We can stay in the same query since we were looking at the Windows registry of host=we8105desk. 
@@ -185,7 +185,7 @@ Pictures 3.1		<br />
 
 Pictures 3.2  <br /> 
 <img src="https://i.imgur.com/96s697G.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</b> </b>
+<br /><br /> 
 
 Ransomware 208: (Pictures 3.3)  <br /> 
 The VBScript found in question 204 launches 121214.tmp. What is the ParentProcessId of this initial launch? (Pictures 1.1 – 1.4) <br /> 
@@ -197,6 +197,8 @@ The VBScript found in question 204 launches 121214.tmp. What is the ParentProces
 
 Pictures 3.3 <br /> 
 <img src="https://i.imgur.com/L481gbJ.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<br /><br /> 
+
 Ransomware 209: (Pictures 3.4)  <br /> 
 The Cerber ransomware encrypts files located in Bob Smith's Windows profile. How many .txt files does it encrypt? <br /> 
 - <b> We can return to our earlier query, where we have Bob’s hostname and directory.
@@ -207,7 +209,7 @@ The Cerber ransomware encrypts files located in Bob Smith's Windows profile. How
 
 Pictures 3.4 <br /> 
 <img src="https://i.imgur.com/0o7HjvF.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</b> </b>
+<br /><br /> 
 
 Ransomware 210: (Pictures 3.5-3.6)  <br /> 
 The malware downloads a file that contains the Cerber ransomware cryptor code. What is the name of that file? <br /> 
@@ -221,7 +223,9 @@ Pictures 3.5 <br />
 
 Pictures 3.6 <br /> 
 <img src="https://i.imgur.com/yg2ioZe.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</b> </b>
+
+<img src="https://i.imgur.com/Kz8EtRM.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<br /><br /> 
 
 Ransomware 211: (Pictures 3.7)  <br /> 
 Now that you know the name of the ransomware's encryptor file, what obfuscation technique is it likely to use? <br /> 
@@ -233,5 +237,8 @@ Now that you know the name of the ransomware's encryptor file, what obfuscation 
 
 Pictures 3.7 <br />
 <img src="https://i.imgur.com/uY6ECOg.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+
+<img src="https://i.imgur.com/zVU2wPz.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+
 
 
