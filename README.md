@@ -5,7 +5,7 @@
 <h1>Hector M. Reyes  | SOC Analysis </h1>
 </h1> Group 17: Script K™ | Boss of the SOC 2024 </h1>
 
- ### [Google Docs Link | Azure Honeynet and Cloud Network Hardening](https://docs.google.com/document/d/1TbSMzlBtGITVFOTaBGqKXjKY0mPG14p5ZWra-Tj8WNk/pub)
+ ### [Google Docs Link | Splunk: Ransomware](https://docs.google.com/document/d/19y3aXtqZZPFv6Lv4ywes7nDzFUVKh1VeDm2lGbytTkc/pub)
 
 
 <h1> Splunk | Ransomware </h1>
