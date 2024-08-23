@@ -4,10 +4,11 @@
 
 <h1>Hector M. Reyes  | SOC Analysis </h1>
 </h1> Group 17: Script K™ | Boss of the SOC 2024 </h1>
-<h1> Splunk | Ransomware </h1>
 
  ### [Google Docs Link | Azure Honeynet and Cloud Network Hardening](https://docs.google.com/document/d/1TbSMzlBtGITVFOTaBGqKXjKY0mPG14p5ZWra-Tj8WNk/pub)
 
+
+<h1> Splunk | Ransomware </h1>
 
 ![Betterpreview3](https://github.com/reyestech/Splunk-Ransomware/assets/153461962/1e47ca50-99c8-4c86-8d2b-ac54bb6eb381)
 
