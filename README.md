@@ -242,6 +242,15 @@ Now that you know the name of the ransomware's encryptor file, what obfuscation 
 Pictures 3.7 <br />
 <img src="https://i.imgur.com/uY6ECOg.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 
+## Conclusion
+
+This project demonstrates how Splunk can be utilized to detect and investigate ransomware attacks. By analyzing event logs from a simulated incident, we identified key indicators of compromise, such as unauthorized file encryption activity, suspicious PowerShell commands, and abnormal system behavior associated with ransomware execution.
+
+This practical scenario explored how Splunk supports proactive threat detection and incident response. The project highlights essential skills for a Security Analyst, including log analysis, threat investigation, and SIEM tools to mitigate cyber risks—critical capabilities for protecting modern IT environments.
+
+
+
+
 <img src="https://i.imgur.com/zVU2wPz.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 
 
