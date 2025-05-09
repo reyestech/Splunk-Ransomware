@@ -2,7 +2,7 @@
 
 <img src="https://i.imgur.com/WaIk6nd.png" height="80%" width="80%" alt="Disk Sanitization Steps"/> 
 
-<h1>Hector M. Reyes  | SOC Analysis </h1> | Boss of the SOC 2024 </h1>
+<h1>Hector M. Reyes  | SOC Analysis | Boss of the SOC 2024 </h1>
 
  ### [Google Docs Link | Splunk: Ransomware](https://docs.google.com/document/d/19y3aXtqZZPFv6Lv4ywes7nDzFUVKh1VeDm2lGbytTkc/pub)
 
