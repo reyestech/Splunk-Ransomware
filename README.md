@@ -1,35 +1,33 @@
-## Splunk.Bots
 
-<img src="https://i.imgur.com/WaIk6nd.png" height="80%" width="80%" alt="Disk Sanitization Steps"/> 
+![Boss of the SOC](https://github.com/user-attachments/assets/523985a4-07ce-4084-a36c-52a2243e502e)
 
-<img src="https://i.imgur.com/WaIk6nd.png" height="40%" width="40%" alt="Disk Sanitization Steps"/>
+<h1> Splunk | Ransomware </h1>
+Hector M. Reyes  | SOC Analysis | Boss of the SOC  </b>
 
-## Hector M. Reyes  | SOC Analysis | Boss of the SOC 
+[Google Docs Link | Splunk: Ransomware](https://docs.google.com/document/d/19y3aXtqZZPFv6Lv4ywes7nDzFUVKh1VeDm2lGbytTkc/pub)
 
- ### [Google Docs Link | Splunk: Ransomware](https://docs.google.com/document/d/19y3aXtqZZPFv6Lv4ywes7nDzFUVKh1VeDm2lGbytTkc/pub)
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/aa505c5a-cad1-49ef-96b1-62fa6f2c2272" width="40%" alt="Splunk Image"/>
+</div>
+
+<h2> Intro to the Ransomware </h2> 
+After the excitement of yesterday, Alice has started to settle into her new job. Sadly, she realizes her new colleagues may not be the crack cybersecurity team she was led to believe before joining. Looking through her incident ticketing queue, she noticed that a “critical” ticket had never been addressed. Shaking her head, she begins to investigate. Apparently, on August 24th, Bob Smith, using a Windows 10 workstation named we8105desk, returned to his desk after working out and found his speakers blaring (click below to listen), his desktop image had changed (see below), and his files were inaccessible. Alice has seen this before... ransomware. After a quick conversation with Bob, Alice determines that Bob found a USB drive in the parking lot earlier in the day, plugged it into his desktop, and opened up a Word document on the USB drive called "Miranda_Tate_unveiled.dotm". With a resigned sigh, she begins to dig in. 
+
+### Tools Used
+> - Splunk | SIEM (Security Information and Event Management)
+> - Windows Sandbox | Sandboxie-Plus
+> - VirusTotal | AlientVault 
+> - md5decrypt | REX Expressions
+
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/721cf2af-5f8a-43c3-99ef-7bf1833c4111" width="45%" alt="sp1"/>
+</div>
+
+----
 
 
-<h1> Splunk.Bots | Ransomware </h1>
+  <img src="https://github.com/user-attachments/assets/2113c750-4fb1-43b6-9eb8-810a7b13638f" width="60%" alt="spg1"/>
 
-
-<img src="https://github.com/reyestech/Splunk-Ransomware/assets/153461962/1e47ca50-99c8-4c86-8d2b-ac54bb6eb381" width="80%">
-
-
-<h2> Ransomware </h2>
-After the excitement of yesterday, Alice has started to settle into her new job. Sadly, she realizes her new colleagues may not be the crack cybersecurity team she was led to believe before joining. Looking through her incident ticketing queue, she noticed that a “critical” ticket had never been addressed. Shaking her head, she begins to investigate. Apparently, on August 24th, Bob Smith, using a Windows 10 workstation named we8105desk, returned to his desk after working out and found his speakers blaring (click below to listen), his desktop image had changed (see below), and his files were inaccessible. Alice has seen this before... ransomware. After a quick conversation with Bob, Alice determines that Bob found a USB drive in the parking lot earlier in the day, plugged it into his desktop, and opened up a Word document on the USB drive called "Miranda_Tate_unveiled.dotm". With a resigned sigh, she begins to dig in.
-
- ### [Alternative Link | Google Docs | Splunk | Ransomware](https://docs.google.com/document/d/e/2PACX-1vRonE9OQYFepOAGVK52PCcDdhpSIkfdVq5BI1hp7zVNXQ0YRnbsj6lrpyR3tTTK233x8zg62E4MsE6a/pub)
- 
-<img src="https://i.imgur.com/5uOU9N1.png" height="80%" width="80%" alt="Disk Sanitization Steps"/> 
-
-<h2>Tools Used</h2>
-
-- <b> Splunk | SIEM (Security Information and Event Management) </b> 
-- <b> Windows Sandbox | Sandboxie-Plus </b>
-- <b> VirusTotal | AlientVault </b>
-- <b> md5decrypt | REX Expressions </b>
-
-<img src="https://i.imgur.com/VtSXpfm.png" height="80%" width="80%" alt="Disk Sanitization Steps"/> 
 
 <h2>Pre-Engagement: </h2>
 We have two pieces of evidence that we need to examine before we begin our analysis of the environment. First, we have the screen. The URL where the attackers posted their ransomware note, "Ransomware screenshot." Second, we have the voice memo, "Ransomware warning". The memo seems to have been intended to scare the victim, hoping they would make a rash decision and possibly make a mistake by opening these URLs and extracting the content to look for evidence. 
