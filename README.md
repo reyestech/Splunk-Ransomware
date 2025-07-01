@@ -20,10 +20,10 @@ After the excitement of yesterday, Alice has started to settle into her new job.
 > - md5decrypt | REX Expressions
 
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/721cf2af-5f8a-43c3-99ef-7bf1833c4111" width="45%" alt="sp1"/>
+  <img src="https://github.com/user-attachments/assets/721cf2af-5f8a-43c3-99ef-7bf1833c4111" width="40%" alt="sp1"/>
 </div>
 
-----
+---
 
 <img src="https://github.com/user-attachments/assets/2113c750-4fb1-43b6-9eb8-810a7b13638f" width="60%" alt="spg1"/>
 
@@ -31,31 +31,21 @@ After the excitement of yesterday, Alice has started to settle into her new job.
 We have two pieces of evidence that we need to examine before we begin our analysis of the environment. First, we have the screen. The URL where the attackers posted their ransomware note, "Ransomware screenshot." Second, we have the voice memo, "Ransomware warning". The memo seems to have been intended to scare the victim, hoping they would make a rash decision and possibly make a mistake by opening these URLs and extracting the content to look for evidence. 
 To do this, we will deploy a sandboxed environment. It's perilous to open URLs from malicious links. Since we're using Windows Sandbox, we can safely visit both URLs. We can inspect the web-facing application and use the information to get some clues. We can then extract both the images and the voice memo. The Sandbox environment allows us to open the properties of the files. We can use this data later when you analyze the Network Traffic in Splunk. <br /> 
 Ransomware Screenshot: 
-https://botscontent.netlify.app/v1/cerber-sshot.png  (Picture 1.1-1.2)
+> https://botscontent.netlify.app/v1/cerber-sshot.png  (Picture 1.1-1.2)
 
-Picture 1.1  <br /> 
-<img src="https://i.imgur.com/63HM8LD.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+Picture 1.1 <br/>
+<img src="https://github.com/user-attachments/assets/9170860e-4d87-461a-ac46-2de721545ddd" width="60%" alt="Splunk - Ransomware - Pictures 1.1"/>
 
-Picture 1.1
-![Splunk - Ransomware - Pictures 1 1](https://github.com/user-attachments/assets/9170860e-4d87-461a-ac46-2de721545ddd)
-
-
-Picture 1.2  <br /> 
-<img src="https://i.imgur.com/U8wgtfW.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-
-Picture 1.2
-![Splunk - Ransomware - Pictures 1 2](https://github.com/user-attachments/assets/246caec0-34e4-4ee1-839b-20e918704e4c)
-
+Picture 1.2 <br/>
+<img src="https://github.com/user-attachments/assets/246caec0-34e4-4ee1-839b-20e918704e4c" width="60%" alt="Splunk - Ransomware - Pictures 1.2"/>
 
 > Ransomware warning:
 https://botscontent.netlify.app/v1/cerber-sample-voice.mp3  (Picture 1.3)
 
-Picture 1.3 <br /> 
-<img src="https://i.imgur.com/lQcq4Jg.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+Picture 1.3 <br/>
+<img src="https://github.com/user-attachments/assets/029dcabb-18e4-4c7e-913d-ed1bfa51b203" width="65%" alt="Picture 1.3"/>
 
-Picture 1.3
-![Splunk - Ransomware - Pictures 1 3](https://github.com/user-attachments/assets/029dcabb-18e4-4c7e-913d-ed1bfa51b203)
-
+---
 
 ## Ransomware 200: (Pictures 1.4 – 1.7)
 What was the most likely IPv4 address of we8105desk on 24AUG2016? <br /> 
@@ -68,53 +58,30 @@ We have the hostname we8105desk, and the attack date is August 24, 2016.
 - Enter Search: index="botsv1" host=we8105desk
 - Answer: 192.168.250.100
 
-Pictures 1.4 <br /> 
-<img src="https://i.imgur.com/jhkWtOk.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+Picture 1.4 <br/>
+<img src="https://github.com/user-attachments/assets/58c4723d-a081-4c90-b2b8-42535999a95e" width="65%" alt="Picture 1.4"/>
 
-Picture 1.4
-![Splunk - Ransomware - Pictures 1 4](https://github.com/user-attachments/assets/58c4723d-a081-4c90-b2b8-42535999a95e)
+Picture 1.5 <br/>
+<img src="https://github.com/user-attachments/assets/e3aeb61e-aa16-4d45-b38d-9dafa6e3f726" width="65%" alt="Picture 1.5"/>
 
+Picture 1.6 <br/>
+<img src="https://github.com/user-attachments/assets/1ed9a8f6-7d4b-4d1f-9216-7ec14ac32dcc" width="65%" alt="Picture 1.6"/>
 
-Picture 1.5 <br /> 
-<img src="https://i.imgur.com/SgRIKDd.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-
-
-Picture 1.5
-![Splunk - Ransomware - Pictures 1 5](https://github.com/user-attachments/assets/e3aeb61e-aa16-4d45-b38d-9dafa6e3f726)
-
-
-Pictures 1.6 <br /> 
-<img src="https://i.imgur.com/oDo4p3p.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-
-
-Picture 1.6
-![Splunk - Ransomware - Pictures 1 6](https://github.com/user-attachments/assets/1ed9a8f6-7d4b-4d1f-9216-7ec14ac32dcc)
-
-
-Pictures 1.7 <br /> 
-<img src="https://i.imgur.com/mko7Ztb.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-
-Picture 1.7
-![Splunk - Ransomware - Pictures 1 7](https://github.com/user-attachments/assets/ef14cc90-4473-466d-a9c3-57d2f426f978)
-
+Picture 1.7 <br/>
+<img src="https://github.com/user-attachments/assets/ef14cc90-4473-466d-a9c3-57d2f426f978" width="65%" alt="Picture 1.7"/>
 
 
 ## Ransomware 201:  (Pictures 1.8) <br /> 
 Amongst the Suricata signatures that detected the Cerber malware, which one alerted the fewest number of times? Submit ONLY the signature ID value as the answer. <br /> 
-- <b> First, we need to determine where the signature could be located. We can access the source by going to the Suricata event logs. 
-- <b> We are looking for the alert.signature_id.
+- First, we need to determine where the signature could be located. We can access the source by going to the Suricata event logs. 
+- We are looking for the alert.signature_id.
 - We can sort it by count since we know we're looking for the fewest occurrences.
-- <b> You could also sort the events by count to find them.
-- <b> Enter Search: index=botsv1 sourcetype=suricata cerber | stats count by alert.signature_id | sort - count 
-- <b> Answer: 2816763
+- You could also sort the events by count to find them.
+- Enter Search: index=botsv1 sourcetype=suricata cerber | stats count by alert.signature_id | sort - count 
+- Answer: 2816763
 
-Pictures 1.8 <br /> 
-<img src="https://i.imgur.com/n84XtbJ.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-
-
-Picture 1.8
-![Splunk - Ransomware - Pictures 1 8](https://github.com/user-attachments/assets/a6540b60-2ca3-4528-a0be-ebd99b9d74af)
-
+Picture 1.8 <br/>
+<img src="https://github.com/user-attachments/assets/a6540b60-2ca3-4528-a0be-ebd99b9d74af" width="65%" alt="Picture 1.8"/>
 
 
 ## Ransomware 202: (Pictures 1.9-2.1) 
@@ -132,27 +99,14 @@ Let's add a DNS filter to our query: "stream: DNS."
 - Enter Search: index=botsv1 sourcetype=stream:DNS src_ip=192.168.250.100 NOT query=*.local NOT query=*.arpa  NOT query=*.microsoft.com NOT query=*.msn.com NOT query=*.info query=*.*| table dest_ip _time query
 - Answer: cerberhhyed5frqa.xmfir0.win
 
-Pictures 1.9 <br /> 
-<img src="https://i.imgur.com/erNw6mo.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+Picture 1.9 <br/>
+<img src="https://github.com/user-attachments/assets/1e7ffad3-f69e-45b2-997f-b36ad8953d97" width="65%" alt="Picture 1.9"/>
 
+Picture 2.0 <br/>
+<img src="https://github.com/user-attachments/assets/c13ed977-cebe-436d-8ac8-543c3f3140ae" width="65%" alt="Picture 2.0"/>
 
-Picture 1.9
-![Splunk - Ransomware - Pictures 1 9](https://github.com/user-attachments/assets/1e7ffad3-f69e-45b2-997f-b36ad8953d97)
-
-
-Pictures 2.0 <br /> 
-<img src="https://i.imgur.com/SNBNdxZ.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-
-
-Picture 2.0
-![Splunk - Ransomware - Pictures 2 0](https://github.com/user-attachments/assets/c13ed977-cebe-436d-8ac8-543c3f3140ae)
-
-
-Pictures 2.1 <br /> 
-<img src="https://i.imgur.com/WMdezAR.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-
-Picture 2.1
-![Splunk - Ransomware - Pictures 2 1](https://github.com/user-attachments/assets/835d9100-dd18-40c6-ab0b-40b8d9df0105)
+Picture 2.1 <br/>
+<img src="https://github.com/user-attachments/assets/835d9100-dd18-40c6-ab0b-40b8d9df0105" width="65%" alt="Picture 2.1"/>
 
 
 ## Ransomware 203: (Pictures 2.2-2.5)
@@ -164,32 +118,17 @@ We can follow the timeline in the query until we encounter the first suspicious 
 - Use a URL analyzer to look past the network traffic of the FQDN for future use.
 - Answer: solidaritedeproximite.org
 
-Pictures 2.2 <br /> 
-<img src="https://i.imgur.com/LtWiQqf.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+Picture 2.2 <br/>
+<img src="https://github.com/user-attachments/assets/5c4d0a64-1a7a-45d0-aefb-84e3cf21f94d" width="65%" alt="Picture 2.2"/>
 
-Picture 2.2
-![Splunk - Ransomware - Pictures 2 2](https://github.com/user-attachments/assets/5c4d0a64-1a7a-45d0-aefb-84e3cf21f94d)
+Picture 2.3 <br/>
+<img src="https://github.com/user-attachments/assets/edf498da-0d8b-401c-a524-29259c54307d" width="65%" alt="Picture 2.3"/>
 
+Picture 2.4 <br/>
+<img src="https://github.com/user-attachments/assets/cf13a1cf-ca12-4734-86fc-a20082817b17" width="65%" alt="Picture 2.4"/>
 
-Pictures 2.3 <br /> 
-<img src="https://i.imgur.com/RbNZavr.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-
-Picture 2.3
-![Splunk - Ransomware - Pictures 2 3](https://github.com/user-attachments/assets/edf498da-0d8b-401c-a524-29259c54307d)
-
-
-Pictures 2.4  <br /> 
-<img src="https://i.imgur.com/SVmOXlo.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-
-Picture 2.4
-![Splunk - Ransomware - Pictures 2 4](https://github.com/user-attachments/assets/cf13a1cf-ca12-4734-86fc-a20082817b17)
-
-
-Pictures 2.5 <br /> 
-<img src="https://i.imgur.com/pxOEoUX.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-
-Picture 2.5
-![Splunk - Ransomware - Pictures 2 5](https://github.com/user-attachments/assets/a17e0683-bb94-42d8-b79d-07b21fa59485)
+Picture 2.5 <br/>
+<img src="https://github.com/user-attachments/assets/a17e0683-bb94-42d8-b79d-07b21fa59485" width="65%" alt="Picture 2.5"/>
 
 
 ## Ransomware 204: (Pictures 2.6-2.9)
@@ -206,32 +145,17 @@ We can start by looking at we8105desk's WinRegistry and filtering for a USB.
 - Enter Search: index=botsv1 sourcetype="winregistry" host=we8105desk friendlyname
 - Answer: MIRANDA_PRI
 
-Pictures 2.6 <br /> 
-<img src="https://i.imgur.com/7EKTsck.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+Picture 2.6 <br/>
+<img src="https://github.com/user-attachments/assets/4340cc89-034d-406b-9134-828d875446c7" width="65%" alt="Picture 2.6"/>
 
-Picture 2.6
-![Splunk - Ransomware - Pictures 2 6](https://github.com/user-attachments/assets/4340cc89-034d-406b-9134-828d875446c7)
+Picture 2.7 <br/>
+<img src="https://github.com/user-attachments/assets/dddd2c71-a118-4016-8217-9b567fba321b" width="65%" alt="Picture 2.7"/>
 
+Picture 2.8 <br/>
+<img src="https://github.com/user-attachments/assets/0e6a944a-bd54-461d-bec7-4fd9332088b2" width="65%" alt="Picture 2.8"/>
 
-Pictures 2.7 <br /> 
-<img src="https://i.imgur.com/yHJL7bi.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-
-Picture 2.7
-![Splunk - Ransomware - Pictures 2 7](https://github.com/user-attachments/assets/dddd2c71-a118-4016-8217-9b567fba321b)
-
-
-Pictures 2.8  <br /> 
-<img src="https://i.imgur.com/4ul6Eai.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-
-Picture 2.8
-![Splunk - Ransomware - Pictures 2 8](https://github.com/user-attachments/assets/0e6a944a-bd54-461d-bec7-4fd9332088b2)
-
-
-Pictures 2.9 <br /> 
-<img src="https://i.imgur.com/qBFlcVC.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-
-Picture 2.9
-![Splunk - Ransomware - Pictures 2 9](https://github.com/user-attachments/assets/425fdfd7-e272-4795-8dec-c7f57d6b044f)
+Picture 2.9 <br/>
+<img src="https://github.com/user-attachments/assets/425fdfd7-e272-4795-8dec-c7f57d6b044f" width="65%" alt="Picture 2.9"/>
 
 
 ## Ransomware 206: (Pictures 3.0) 
@@ -242,11 +166,9 @@ Bob Smith's workstation (we8105desk) was connected to a file server during the r
 - Enter Search: index=botsv1 sourcetype="winregistry" host=we8105desk fileshare
 - Answer: 192.168.250.20
 
-Pictures 3.0 <br /> 
-<img src="https://i.imgur.com/vUgtCkZ.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+Picture 3.0 <br/>
+<img src="https://github.com/user-attachments/assets/93490f93-0c23-43de-adaf-dde888ff0d59" width="65%" alt="Picture 3.0"/>
 
-Picture 3.0
-![Splunk - Ransomware - Pictures 3 0](https://github.com/user-attachments/assets/93490f93-0c23-43de-adaf-dde888ff0d59)
 
 ## Ransomware 207: (Pictures 3.1-3.2) 
 How many distinct PDFs did the ransomware encrypt on the remote file server? <br /> 
@@ -259,18 +181,11 @@ We can find the file server's name on the same line where we saw its IP.
 - Enter Search: index=botsv1 host=we9041srv *.pdf | stats dc(Relative_Target_Name)
 - Answer: we9041srv
 
-Pictures 3.1	<br />
-<img src="https://i.imgur.com/lxjzzcz.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+Picture 3.1 <br/>
+<img src="https://github.com/user-attachments/assets/a9a5ad65-596d-4b26-a639-ccc70904113b" width="65%" alt="Picture 3.1"/>
 
-Picture 3.1
-![Splunk - Ransomware - Pictures 3 1](https://github.com/user-attachments/assets/a9a5ad65-596d-4b26-a639-ccc70904113b)
-
-
-Pictures 3.2  <br /> 
-<img src="https://i.imgur.com/96s697G.png" height="80%" width="80%" alt="Disk Sanitization Steps"/> 
-
-Picture 3.2
-![Splunk - Ransomware - Pictures 3 2](https://github.com/user-attachments/assets/c8adc787-496c-4d0e-b8bf-518a12e7ee6e)
+Picture 3.2 <br/>
+<img src="https://github.com/user-attachments/assets/c8adc787-496c-4d0e-b8bf-518a12e7ee6e" width="65%" alt="Picture 3.2"/>
 
 
 ## Ransomware 208: (Pictures 3.3)  
@@ -280,12 +195,8 @@ Since we know the file name, we can return to the query we saved from step 204.
 - Enter Search:  index=botsv1 sourcetype="xmlwineventlog:microsoft-windows-sysmon/operational" *.vbs 121214.tmp
 - Answer: 3968
 
-Pictures 3.3 <br /> 
-<img src="https://i.imgur.com/L481gbJ.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-<br /><br /> 
-
-Picture 3.3
-![Splunk - Ransomware - Pictures 3 3](https://github.com/user-attachments/assets/ad3c9595-bfe2-472c-98a3-1c9bb6f5d3c0)
+Picture 3.3 <br/>
+<img src="https://github.com/user-attachments/assets/ad3c9595-bfe2-472c-98a3-1c9bb6f5d3c0" width="65%" alt="Picture 3.3"/>
 
 
 ## Ransomware 209: (Pictures 3.4) 
@@ -296,12 +207,8 @@ The Cerber ransomware encrypts files located in Bob Smith's Windows profile. How
 - Enter Search: index="botsv1" host=we8105desk sourcetype="XmlWinEventLog:Microsoft-Windows-Sysmon/Operational" TargetFilename="C:\\Users\\bob.smith.WAYNECORPINC\\*.txt" | stats dc(TargetFilename)
 - Answer: 406
 
-Pictures 3.4 <br /> 
-<img src="https://i.imgur.com/0o7HjvF.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-
-
-Picture 3.4
-![Splunk - Ransomware - Pictures 3 4](https://github.com/user-attachments/assets/457b12dc-67f9-4cdd-baec-20592d907094)
+Picture 3.4 <br/>
+<img src="https://github.com/user-attachments/assets/457b12dc-67f9-4cdd-baec-20592d907094" width="65%" alt="Picture 3.4"/>
 
 
 ## Ransomware 210: (Pictures 3.5-3.6) 
@@ -311,20 +218,11 @@ The malware downloads a file that contains the Cerber ransomware cryptor code. W
 - Enter Search: index=botsv1 sourcetype=suricata dest_ip="192.168.250.100"  "http.hostname"="solidaritedeproximite.org"
 - Answer: mhtr.jpg
 
-Pictures 3.5 <br /> 
-<img src="https://i.imgur.com/eNs1kxr.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+Picture 3.5 <br/>
+<img src="https://github.com/user-attachments/assets/99ea1310-ba89-40fa-a9e1-94ece3814761" width="65%" alt="Picture 3.5"/>
 
-
-Picture 3.5
-![Splunk - Ransomware - Pictures 3 5](https://github.com/user-attachments/assets/99ea1310-ba89-40fa-a9e1-94ece3814761)
-
-
-Pictures 3.6 <br /> 
-<img src="https://i.imgur.com/yg2ioZe.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-
-
-Picture 3.6
-![Splunk - Ransomware - Pictures 3 6](https://github.com/user-attachments/assets/150a20dd-7ae2-431e-a4f6-b67596ac26a7)
+Picture 3.6 <br/>
+<img src="https://github.com/user-attachments/assets/150a20dd-7ae2-431e-a4f6-b67596ac26a7" width="65%" alt="Picture 3.6"/>
 
 
 ## Ransomware 211: (Pictures 3.7)
@@ -334,19 +232,12 @@ Now that you know the name of the ransomware's encryptor file, what obfuscation 
 - A quick search can reveal how this kind of file has been decoded in the past. We just needed the URL.
 - Answer: Steganography
 
-Pictures 3.7 <br />
-<img src="https://i.imgur.com/uY6ECOg.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+Picture 3.7 <br/>
+<img src="https://github.com/user-attachments/assets/be99b708-c5fe-4929-8343-09d6c03a9c6d" width="65%" alt="Picture 3.7"/>
 
+---
 
-Pictures 3.7
-![Splunk - Ransomware - Pictures 3 7](https://github.com/user-attachments/assets/be99b708-c5fe-4929-8343-09d6c03a9c6d)
-
-
-Picture  Graph 11
-
-![Splunk - Ransomware - Pictures Graph 11](https://github.com/user-attachments/assets/da0a82ab-1698-4051-bc22-1460114541c9)
-
-
+<img src="https://github.com/user-attachments/assets/da0a82ab-1698-4051-bc22-1460114541c9" width="65%" alt="Graph 11"/>
 
 
 ## Conclusion
@@ -354,11 +245,7 @@ This project demonstrates how Splunk can be utilized to detect and investigate r
 
 This practical scenario explored how Splunk supports proactive threat detection and incident response. The project highlights essential skills for a Security Analyst, including log analysis, threat investigation, and SIEM tools to mitigate cyber risks—critical capabilities for protecting modern IT environments.
 
-Picture con
-
-![Splunk - Ransomware - Pictures Graph Conclusion](https://github.com/user-attachments/assets/1370fda4-5387-45b7-8efd-243db80a7ec2)
-
-<img src="https://i.imgur.com/zVU2wPz.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://github.com/user-attachments/assets/1370fda4-5387-45b7-8efd-243db80a7ec2" width="65%" alt="Graph Conclusion"/>
 
 
 
