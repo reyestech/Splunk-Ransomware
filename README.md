@@ -1,17 +1,19 @@
-# Splunk.Bots
+## Splunk.Bots
 
 <img src="https://i.imgur.com/WaIk6nd.png" height="80%" width="80%" alt="Disk Sanitization Steps"/> 
 
-<h1>Hector M. Reyes  | SOC Analysis | Boss of the SOC 2024 </h1>
+<img src="https://i.imgur.com/WaIk6nd.png" height="40%" width="40%" alt="Disk Sanitization Steps"/>
+
+## Hector M. Reyes  | SOC Analysis | Boss of the SOC 
 
  ### [Google Docs Link | Splunk: Ransomware](https://docs.google.com/document/d/19y3aXtqZZPFv6Lv4ywes7nDzFUVKh1VeDm2lGbytTkc/pub)
 
 
-<h1> Splunk | Ransomware </h1>
+<h1> Splunk.Bots | Ransomware </h1>
 
-![Betterpreview3](https://github.com/reyestech/Splunk-Ransomware/assets/153461962/1e47ca50-99c8-4c86-8d2b-ac54bb6eb381)
 
-</b> </b>
+<img src="https://github.com/reyestech/Splunk-Ransomware/assets/153461962/1e47ca50-99c8-4c86-8d2b-ac54bb6eb381" width="80%">
+
 
 <h2> Ransomware </h2>
 After the excitement of yesterday, Alice has started to settle into her new job. Sadly, she realizes her new colleagues may not be the crack cybersecurity team she was led to believe before joining. Looking through her incident ticketing queue, she noticed that a “critical” ticket had never been addressed. Shaking her head, she begins to investigate. Apparently, on August 24th, Bob Smith, using a Windows 10 workstation named we8105desk, returned to his desk after working out and found his speakers blaring (click below to listen), his desktop image had changed (see below), and his files were inaccessible. Alice has seen this before... ransomware. After a quick conversation with Bob, Alice determines that Bob found a USB drive in the parking lot earlier in the day, plugged it into his desktop, and opened up a Word document on the USB drive called "Miranda_Tate_unveiled.dotm". With a resigned sigh, she begins to dig in.
