@@ -20,7 +20,7 @@ After the excitement of yesterday, Alice has started to settle into her new job.
 > - md5decrypt | REX Expressions
 
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/721cf2af-5f8a-43c3-99ef-7bf1833c4111" width="40%" alt="sp1"/>
+  <img src="https://github.com/user-attachments/assets/721cf2af-5f8a-43c3-99ef-7bf1833c4111" width="50%" alt="sp1"/>
 </div>
 
 ---
@@ -34,16 +34,16 @@ Ransomware Screenshot:
 > https://botscontent.netlify.app/v1/cerber-sshot.png  (Picture 1.1-1.2)
 
 Picture 1.1 <br/>
-<img src="https://github.com/user-attachments/assets/9170860e-4d87-461a-ac46-2de721545ddd" width="60%" alt="Splunk - Ransomware - Pictures 1.1"/>
+<img src="https://github.com/user-attachments/assets/9170860e-4d87-461a-ac46-2de721545ddd" width="40%" alt="Splunk - Ransomware - Pictures 1.1"/>
 
 Picture 1.2 <br/>
-<img src="https://github.com/user-attachments/assets/246caec0-34e4-4ee1-839b-20e918704e4c" width="60%" alt="Splunk - Ransomware - Pictures 1.2"/>
+<img src="https://github.com/user-attachments/assets/246caec0-34e4-4ee1-839b-20e918704e4c" width="30%" alt="Splunk - Ransomware - Pictures 1.2"/>
 
 > Ransomware warning:
 https://botscontent.netlify.app/v1/cerber-sample-voice.mp3  (Picture 1.3)
 
 Picture 1.3 <br/>
-<img src="https://github.com/user-attachments/assets/029dcabb-18e4-4c7e-913d-ed1bfa51b203" width="65%" alt="Picture 1.3"/>
+<img src="https://github.com/user-attachments/assets/029dcabb-18e4-4c7e-913d-ed1bfa51b203" width="30%" alt="Picture 1.3"/>
 
 ---
 
@@ -59,16 +59,16 @@ We have the hostname we8105desk, and the attack date is August 24, 2016.
 - Answer: 192.168.250.100
 
 Picture 1.4 <br/>
-<img src="https://github.com/user-attachments/assets/58c4723d-a081-4c90-b2b8-42535999a95e" width="65%" alt="Picture 1.4"/>
+<img src="https://github.com/user-attachments/assets/58c4723d-a081-4c90-b2b8-42535999a95e" width="40%" alt="Picture 1.4"/>
 
 Picture 1.5 <br/>
-<img src="https://github.com/user-attachments/assets/e3aeb61e-aa16-4d45-b38d-9dafa6e3f726" width="65%" alt="Picture 1.5"/>
+<img src="https://github.com/user-attachments/assets/e3aeb61e-aa16-4d45-b38d-9dafa6e3f726" width="30%" alt="Picture 1.5"/>
 
 Picture 1.6 <br/>
-<img src="https://github.com/user-attachments/assets/1ed9a8f6-7d4b-4d1f-9216-7ec14ac32dcc" width="65%" alt="Picture 1.6"/>
+<img src="https://github.com/user-attachments/assets/1ed9a8f6-7d4b-4d1f-9216-7ec14ac32dcc" width="30%" alt="Picture 1.6"/>
 
 Picture 1.7 <br/>
-<img src="https://github.com/user-attachments/assets/ef14cc90-4473-466d-a9c3-57d2f426f978" width="65%" alt="Picture 1.7"/>
+<img src="https://github.com/user-attachments/assets/ef14cc90-4473-466d-a9c3-57d2f426f978" width="40%" alt="Picture 1.7"/>
 
 
 ## Ransomware 201:  (Pictures 1.8) <br /> 
@@ -81,7 +81,7 @@ Amongst the Suricata signatures that detected the Cerber malware, which one aler
 - Answer: 2816763
 
 Picture 1.8 <br/>
-<img src="https://github.com/user-attachments/assets/a6540b60-2ca3-4528-a0be-ebd99b9d74af" width="65%" alt="Picture 1.8"/>
+<img src="https://github.com/user-attachments/assets/a6540b60-2ca3-4528-a0be-ebd99b9d74af" width="30%" alt="Picture 1.8"/>
 
 
 ## Ransomware 202: (Pictures 1.9-2.1) 
@@ -100,13 +100,13 @@ Let's add a DNS filter to our query: "stream: DNS."
 - Answer: cerberhhyed5frqa.xmfir0.win
 
 Picture 1.9 <br/>
-<img src="https://github.com/user-attachments/assets/1e7ffad3-f69e-45b2-997f-b36ad8953d97" width="65%" alt="Picture 1.9"/>
+<img src="https://github.com/user-attachments/assets/1e7ffad3-f69e-45b2-997f-b36ad8953d97" width="30%" alt="Picture 1.9"/>
 
 Picture 2.0 <br/>
-<img src="https://github.com/user-attachments/assets/c13ed977-cebe-436d-8ac8-543c3f3140ae" width="65%" alt="Picture 2.0"/>
+<img src="https://github.com/user-attachments/assets/c13ed977-cebe-436d-8ac8-543c3f3140ae" width="40%" alt="Picture 2.0"/>
 
 Picture 2.1 <br/>
-<img src="https://github.com/user-attachments/assets/835d9100-dd18-40c6-ab0b-40b8d9df0105" width="65%" alt="Picture 2.1"/>
+<img src="https://github.com/user-attachments/assets/835d9100-dd18-40c6-ab0b-40b8d9df0105" width="40%" alt="Picture 2.1"/>
 
 
 ## Ransomware 203: (Pictures 2.2-2.5)
@@ -119,16 +119,16 @@ We can follow the timeline in the query until we encounter the first suspicious 
 - Answer: solidaritedeproximite.org
 
 Picture 2.2 <br/>
-<img src="https://github.com/user-attachments/assets/5c4d0a64-1a7a-45d0-aefb-84e3cf21f94d" width="65%" alt="Picture 2.2"/>
+<img src="https://github.com/user-attachments/assets/5c4d0a64-1a7a-45d0-aefb-84e3cf21f94d" width="50%" alt="Picture 2.2"/>
 
 Picture 2.3 <br/>
-<img src="https://github.com/user-attachments/assets/edf498da-0d8b-401c-a524-29259c54307d" width="65%" alt="Picture 2.3"/>
+<img src="https://github.com/user-attachments/assets/edf498da-0d8b-401c-a524-29259c54307d" width="50%" alt="Picture 2.3"/>
 
 Picture 2.4 <br/>
-<img src="https://github.com/user-attachments/assets/cf13a1cf-ca12-4734-86fc-a20082817b17" width="65%" alt="Picture 2.4"/>
+<img src="https://github.com/user-attachments/assets/cf13a1cf-ca12-4734-86fc-a20082817b17" width="40%" alt="Picture 2.4"/>
 
 Picture 2.5 <br/>
-<img src="https://github.com/user-attachments/assets/a17e0683-bb94-42d8-b79d-07b21fa59485" width="65%" alt="Picture 2.5"/>
+<img src="https://github.com/user-attachments/assets/a17e0683-bb94-42d8-b79d-07b21fa59485" width="30%" alt="Picture 2.5"/>
 
 
 ## Ransomware 204: (Pictures 2.6-2.9)
@@ -146,16 +146,16 @@ We can start by looking at we8105desk's WinRegistry and filtering for a USB.
 - Answer: MIRANDA_PRI
 
 Picture 2.6 <br/>
-<img src="https://github.com/user-attachments/assets/4340cc89-034d-406b-9134-828d875446c7" width="65%" alt="Picture 2.6"/>
+<img src="https://github.com/user-attachments/assets/4340cc89-034d-406b-9134-828d875446c7" width="30%" alt="Picture 2.6"/>
 
 Picture 2.7 <br/>
-<img src="https://github.com/user-attachments/assets/dddd2c71-a118-4016-8217-9b567fba321b" width="65%" alt="Picture 2.7"/>
+<img src="https://github.com/user-attachments/assets/dddd2c71-a118-4016-8217-9b567fba321b" width="40%" alt="Picture 2.7"/>
 
 Picture 2.8 <br/>
-<img src="https://github.com/user-attachments/assets/0e6a944a-bd54-461d-bec7-4fd9332088b2" width="65%" alt="Picture 2.8"/>
+<img src="https://github.com/user-attachments/assets/0e6a944a-bd54-461d-bec7-4fd9332088b2" width="50%" alt="Picture 2.8"/>
 
 Picture 2.9 <br/>
-<img src="https://github.com/user-attachments/assets/425fdfd7-e272-4795-8dec-c7f57d6b044f" width="65%" alt="Picture 2.9"/>
+<img src="https://github.com/user-attachments/assets/425fdfd7-e272-4795-8dec-c7f57d6b044f" width="50%" alt="Picture 2.9"/>
 
 
 ## Ransomware 206: (Pictures 3.0) 
@@ -167,7 +167,7 @@ Bob Smith's workstation (we8105desk) was connected to a file server during the r
 - Answer: 192.168.250.20
 
 Picture 3.0 <br/>
-<img src="https://github.com/user-attachments/assets/93490f93-0c23-43de-adaf-dde888ff0d59" width="65%" alt="Picture 3.0"/>
+<img src="https://github.com/user-attachments/assets/93490f93-0c23-43de-adaf-dde888ff0d59" width="50%" alt="Picture 3.0"/>
 
 
 ## Ransomware 207: (Pictures 3.1-3.2) 
@@ -182,10 +182,10 @@ We can find the file server's name on the same line where we saw its IP.
 - Answer: we9041srv
 
 Picture 3.1 <br/>
-<img src="https://github.com/user-attachments/assets/a9a5ad65-596d-4b26-a639-ccc70904113b" width="65%" alt="Picture 3.1"/>
+<img src="https://github.com/user-attachments/assets/a9a5ad65-596d-4b26-a639-ccc70904113b" width="50%" alt="Picture 3.1"/>
 
 Picture 3.2 <br/>
-<img src="https://github.com/user-attachments/assets/c8adc787-496c-4d0e-b8bf-518a12e7ee6e" width="65%" alt="Picture 3.2"/>
+<img src="https://github.com/user-attachments/assets/c8adc787-496c-4d0e-b8bf-518a12e7ee6e" width="40%" alt="Picture 3.2"/>
 
 
 ## Ransomware 208: (Pictures 3.3)  
@@ -196,7 +196,7 @@ Since we know the file name, we can return to the query we saved from step 204.
 - Answer: 3968
 
 Picture 3.3 <br/>
-<img src="https://github.com/user-attachments/assets/ad3c9595-bfe2-472c-98a3-1c9bb6f5d3c0" width="65%" alt="Picture 3.3"/>
+<img src="https://github.com/user-attachments/assets/ad3c9595-bfe2-472c-98a3-1c9bb6f5d3c0" width="30%" alt="Picture 3.3"/>
 
 
 ## Ransomware 209: (Pictures 3.4) 
@@ -208,7 +208,7 @@ The Cerber ransomware encrypts files located in Bob Smith's Windows profile. How
 - Answer: 406
 
 Picture 3.4 <br/>
-<img src="https://github.com/user-attachments/assets/457b12dc-67f9-4cdd-baec-20592d907094" width="65%" alt="Picture 3.4"/>
+<img src="https://github.com/user-attachments/assets/457b12dc-67f9-4cdd-baec-20592d907094" width="50%" alt="Picture 3.4"/>
 
 
 ## Ransomware 210: (Pictures 3.5-3.6) 
@@ -219,10 +219,10 @@ The malware downloads a file that contains the Cerber ransomware cryptor code. W
 - Answer: mhtr.jpg
 
 Picture 3.5 <br/>
-<img src="https://github.com/user-attachments/assets/99ea1310-ba89-40fa-a9e1-94ece3814761" width="65%" alt="Picture 3.5"/>
+<img src="https://github.com/user-attachments/assets/99ea1310-ba89-40fa-a9e1-94ece3814761" width="40%" alt="Picture 3.5"/>
 
 Picture 3.6 <br/>
-<img src="https://github.com/user-attachments/assets/150a20dd-7ae2-431e-a4f6-b67596ac26a7" width="65%" alt="Picture 3.6"/>
+<img src="https://github.com/user-attachments/assets/150a20dd-7ae2-431e-a4f6-b67596ac26a7" width="50%" alt="Picture 3.6"/>
 
 
 ## Ransomware 211: (Pictures 3.7)
@@ -233,11 +233,11 @@ Now that you know the name of the ransomware's encryptor file, what obfuscation 
 - Answer: Steganography
 
 Picture 3.7 <br/>
-<img src="https://github.com/user-attachments/assets/be99b708-c5fe-4929-8343-09d6c03a9c6d" width="65%" alt="Picture 3.7"/>
+<img src="https://github.com/user-attachments/assets/be99b708-c5fe-4929-8343-09d6c03a9c6d" width="50%" alt="Picture 3.7"/>
 
 ---
 
-<img src="https://github.com/user-attachments/assets/da0a82ab-1698-4051-bc22-1460114541c9" width="65%" alt="Graph 11"/>
+<img src="https://github.com/user-attachments/assets/da0a82ab-1698-4051-bc22-1460114541c9" width="50%" alt="Graph 11"/>
 
 
 ## Conclusion
@@ -245,7 +245,7 @@ This project demonstrates how Splunk can be utilized to detect and investigate r
 
 This practical scenario explored how Splunk supports proactive threat detection and incident response. The project highlights essential skills for a Security Analyst, including log analysis, threat investigation, and SIEM tools to mitigate cyber risks—critical capabilities for protecting modern IT environments.
 
-<img src="https://github.com/user-attachments/assets/1370fda4-5387-45b7-8efd-243db80a7ec2" width="65%" alt="Graph Conclusion"/>
+<img src="https://github.com/user-attachments/assets/1370fda4-5387-45b7-8efd-243db80a7ec2" width="60%" alt="Graph Conclusion"/>
 
 
 
