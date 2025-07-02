@@ -1,5 +1,6 @@
-
-![Boss of the SOC](https://github.com/user-attachments/assets/523985a4-07ce-4084-a36c-52a2243e502e)
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/523985a4-07ce-4084-a36c-52a2243e502e" width="99%" alt="Boss of the SOC"/>
+</div>
 
 <h1> Splunk | Ransomware </h1>
 Hector M. Reyes  | SOC Analysis | Boss of the SOC  </b>
