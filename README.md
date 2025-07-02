@@ -8,7 +8,7 @@ Hector M. Reyes  | SOC Analysis | Boss of the SOC  </b>
 [Google Docs Link | Splunk: Ransomware](https://docs.google.com/document/d/19y3aXtqZZPFv6Lv4ywes7nDzFUVKh1VeDm2lGbytTkc/pub)
 
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/aa505c5a-cad1-49ef-96b1-62fa6f2c2272" width="40%" alt="Splunk Image"/>
+  <img src="https://github.com/user-attachments/assets/aa505c5a-cad1-49ef-96b1-62fa6f2c2272" width="50%" alt="Splunk Image"/>
 </div>
 
 ## Intro to the Ransomware
