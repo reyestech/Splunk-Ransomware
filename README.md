@@ -12,7 +12,7 @@ Hector M. Reyes  | SOC Analysis | Boss of the SOC  </b>
 </div>
 
 ## Intro to the Ransomware
-After the excitement of yesterday, Alice has started to settle into her new job. Sadly, she realizes her new colleagues may not be the crack cybersecurity team she was led to believe before joining. Looking through her incident ticketing queue, she noticed that a “critical” ticket had never been addressed. Shaking her head, she begins to investigate. Apparently, on August 24th, Bob Smith, using a Windows 10 workstation named we8105desk, returned to his desk after working out and found his speakers blaring (click below to listen), his desktop image had changed (see below), and his files were inaccessible. Alice has seen this before... ransomware. After a quick conversation with Bob, Alice determines that Bob found a USB drive in the parking lot earlier in the day, plugged it into his desktop, and opened up a Word document on the USB drive called "Miranda_Tate_unveiled.dotm". With a resigned sigh, she begins to dig in. 
+After the excitement of yesterday, Alice has started to settle into her new job. Sadly, she realizes her new colleagues may not be the crack cybersecurity team she was led to believe they would be before joining. Looking through her incident ticketing queue, she noticed that a “critical” ticket had never been addressed. Shaking her head, she begins to investigate. Apparently, on August 24th, Bob Smith, using a Windows 10 workstation named we8105desk, returned to his desk after working out and found his speakers blaring (click below to listen), his desktop image had changed (see below), and his files were inaccessible. Alice has seen this before... ransomware. After a brief conversation with Bob, Alice determines that Bob had found a USB drive in the parking lot earlier in the day, plugged it into his desktop, and opened a Word document on the USB drive called "Miranda_Tate_unveiled.dotm". With a resigned sigh, she begins to dig in. 
 
 ### Tools Used
 > - Splunk | SIEM (Security Information and Event Management)
@@ -30,7 +30,7 @@ After the excitement of yesterday, Alice has started to settle into her new job.
 
 ## Pre-Engagement 
 We have two pieces of evidence that we need to examine before we begin our analysis of the environment. First, we have the screen. The URL where the attackers posted their ransomware note, "Ransomware screenshot." Second, we have the voice memo, "Ransomware warning". The memo seems to have been intended to scare the victim, hoping they would make a rash decision and possibly make a mistake by opening these URLs and extracting the content to look for evidence. 
-To do this, we will deploy a sandboxed environment. It's perilous to open URLs from malicious links. Since we're using Windows Sandbox, we can safely visit both URLs. We can inspect the web-facing application and use the information to get some clues. We can then extract both the images and the voice memo. The Sandbox environment allows us to open the properties of the files. We can use this data later when you analyze the Network Traffic in Splunk. <br /> 
+To do this, we will deploy a sandboxed environment. It's perilous to open URLs from malicious links. Since we're using Windows Sandbox, we can safely visit both URLs without risk. We can inspect the web-facing application and use the information to get some clues. We can then extract both the images and the voice memo. The Sandbox environment allows us to open the properties of the files. We can use this data later when you analyze the Network Traffic in Splunk. <br /> 
 Ransomware Screenshot: 
 > https://botscontent.netlify.app/v1/cerber-sshot.png  (Picture 1.1-1.2)
 
@@ -244,7 +244,7 @@ Picture 3.7 <br/>
 ## Conclusion
 This project demonstrates how Splunk can be utilized to detect and investigate ransomware attacks. By analyzing event logs from a simulated incident, we identified key indicators of compromise, such as unauthorized file encryption activity, suspicious PowerShell commands, and abnormal system behavior associated with ransomware execution.
 
-This practical scenario explored how Splunk supports proactive threat detection and incident response. The project highlights essential skills for a Security Analyst, including log analysis, threat investigation, and SIEM tools to mitigate cyber risks—critical capabilities for protecting modern IT environments.
+This practical scenario explored how Splunk supports proactive threat detection and incident response. The project highlights essential skills for a Security Analyst, including log analysis, threat investigation, and the use of SIEM tools to mitigate cyber risks—critical capabilities for protecting modern IT environments.
 
 <img src="https://github.com/user-attachments/assets/1370fda4-5387-45b7-8efd-243db80a7ec2" width="60%" alt="Graph Conclusion"/>
 
