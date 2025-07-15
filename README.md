@@ -11,7 +11,7 @@ Hector M. Reyes  | SOC Analysis | Boss of the SOC  </b>
   <img src="https://github.com/user-attachments/assets/aa505c5a-cad1-49ef-96b1-62fa6f2c2272" width="50%" alt="Splunk Image"/>
 </div>
 
-## Intro to the Ransomware
+## **Intro to the Ransomware**
 After the excitement of yesterday, Alice has started to settle into her new job. Sadly, she realizes her new colleagues may not be the crack cybersecurity team she was led to believe they would be before joining. Looking through her incident ticketing queue, she noticed that a “critical” ticket had never been addressed. Shaking her head, she begins to investigate. Apparently, on August 24th, Bob Smith, using a Windows 10 workstation named we8105desk, returned to his desk after working out and found his speakers blaring (click below to listen), his desktop image had changed (see below), and his files were inaccessible. Alice has seen this before... ransomware. After a brief conversation with Bob, Alice determines that Bob had found a USB drive in the parking lot earlier in the day, plugged it into his desktop, and opened a Word document on the USB drive called "Miranda_Tate_unveiled.dotm". With a resigned sigh, she begins to dig in. 
 
 ### Tools Used
@@ -241,7 +241,7 @@ Picture 3.7 <br/>
 <img src="https://github.com/user-attachments/assets/da0a82ab-1698-4051-bc22-1460114541c9" width="50%" alt="Graph 11"/>
 
 
-## Conclusion
+## **Conclusion**
 This project demonstrates how Splunk can be utilized to detect and investigate ransomware attacks. By analyzing event logs from a simulated incident, we identified key indicators of compromise, such as unauthorized file encryption activity, suspicious PowerShell commands, and abnormal system behavior associated with ransomware execution.
 
 This practical scenario explored how Splunk supports proactive threat detection and incident response. The project highlights essential skills for a Security Analyst, including log analysis, threat investigation, and the use of SIEM tools to mitigate cyber risks—critical capabilities for protecting modern IT environments.
