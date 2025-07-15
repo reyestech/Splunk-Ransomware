@@ -141,8 +141,8 @@ We can start by looking at we8105desk's WinRegistry and filtering for a USB.
 - It works! Now I have two results. If I had still gotten multiple pages or no results, we could have headed to (Link 1.2). 
 - We can use these Registry entries to filter our way to our USB device.
 - Now, we can go to the data_1 field and see "MIRANDA_PRI" as the only event.
-- “https://lantern.splunk.com/Splunk_Platform/UCE/Security/Incident_Management/Investigating_a_ransomware_attack/Removable_devices_connected_to_a_machine” (Link 1.1) 
-- “https://learn.microsoft.com/en-us/windows-hardware/drivers/usbcon/usb-device-specific-registry-settings.” (Link 1.2) 
+- "https://lantern.splunk.com/Splunk_Platform/UCE/Security/Incident_Management/Investigating_a_ransomware_attack/Removable_devices_connected_to_a_machine" (Link 1.1) 
+- "https://learn.microsoft.com/en-us/windows-hardware/drivers/usbcon/usb-device-specific-registry-settings." (Link 1.2) 
 - Enter Search: index=botsv1 sourcetype="winregistry" host=we8105desk friendlyname
 - Answer: MIRANDA_PRI
 
