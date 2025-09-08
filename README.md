@@ -8,16 +8,17 @@
 ### Splunk IR Lab — Cerber Ransomware: Detect, Trace, Contain  
 **Hector M. Reyes | Boss of the SOC** | `02 Feb 2024`
 
+Ransomware IR Lab (Cerber) — TL;DR
+> - Used Splunk’s SIEM to investigate and confirmed Cerber ransomware on Bob Smith’s workstation (we8105desk).
+> - Traced the path: USB lure → Word macro → VBScript/TMP payload → encryption → lateral spread to file server.
+> - Documented detections (DNS anomalies, Suricata hits, Sysmon process chains, WinRegistry USB artifacts) plus containment and hardening.
+
+Key skills showcased:
+> Splunk SPL queries, timeline reconstruction, process lineage, registry analysis, DNS filtering, IOC extraction, and IR playbook design.
+
 <div align="center">
   <img src="https://github.com/user-attachments/assets/39d8bb3d-2dc3-4579-a89c-526ecf50c487" width="50%" alt="Cerber Ransomware"/>
 </div>
-
----
-
-TL;DR
-- Used Splunk’s SIEM to investigate a website defacement in the BOSS of the SOC v1 dataset by correlating web, auth, and network logs.
-- Identified scanner activity, the uploaded payload, the FQDN used via dynamic DNS, and brute-force activity leading to compromise.
-- Outcome: a repeatable playbook (detections + queries) you can reuse in real incidents.
 
 ## **Scenario**
 On August 24, 2016, Bob Smith’s Windows 10 workstation (**we8105desk**) began blasting audio, changed desktop wallpaper, and locked files—classic signs of **Cerber ransomware**.  
