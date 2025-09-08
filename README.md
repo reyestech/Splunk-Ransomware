@@ -1,36 +1,55 @@
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/523985a4-07ce-4084-a36c-52a2243e502e" width="99%" alt="Boss of the SOC"/>
+  <img src="https://github.com/user-attachments/assets/523985a4-07ce-4084-a36c-52a2243e502e" width="95%" alt="Boss of the SOC"/>
 </div>
 
 ---
 
-# Splunk: Ransomware 
-### Splunk IR Lab — Cerber Ransomware: Detect, Trace, Contain
-Hector M. Reyes| Boss of the SOC | [Google Docs Link | Splunk: Ransomware](https://docs.google.com/document/d/19y3aXtqZZPFv6Lv4ywes7nDzFUVKh1VeDm2lGbytTkc/pub)
+# Splunk: Ransomware  
+### Splunk IR Lab — Cerber Ransomware: Detect, Trace, Contain  
+**Hector M. Reyes | Boss of the SOC**  
+[Google Docs Link | Splunk: Ransomware](https://docs.google.com/document/d/19y3aXtqZZPFv6Lv4ywes7nDzFUVKh1VeDm2lGbytTkc/pub)
 
 ---
 
-![1723128680918](https://github.com/user-attachments/assets/39d8bb3d-2dc3-4579-a89c-526ecf50c487)
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/39d8bb3d-2dc3-4579-a89c-526ecf50c487" width="50%" alt="Cerber Ransomware"/>
+</div>
+
+---
 
 ## **Scenario**
-Bob Smith’s Windows 10 workstation (**we8105desk**) began blasting audio, changed desktop wallpaper, and locked files—classic **ransomware**. Bob admits plugging in a found USB and opening `Miranda_Tate_unveiled.dotm`. Your job: confirm encryption, trace ingress → payload → spread, and document detection + containment + hardening.
+On August 24, 2016, Bob Smith’s Windows 10 workstation (**we8105desk**) began blasting audio, changed desktop wallpaper, and locked files—classic signs of **Cerber ransomware**.  
+
+During triage, Bob admitted he had plugged in a USB drive he found in the parking lot and opened a suspicious Word document:  
+`Miranda_Tate_unveiled.dotm`  
+
+Your assignment:  
+- Confirm encryption activity.  
+- Trace ingress → payload → lateral spread.  
+- Document detection, containment, and hardening steps.  
+
+---
 
 ## **Intro to the Ransomware**
-After the excitement of yesterday, Alice has started to settle into her new job. Sadly, she realizes her new colleagues may not be the crack cybersecurity team she was led to believe they would be before joining. Looking through her incident ticketing queue, she noticed that a “critical” ticket had never been addressed. Shaking her head, she begins to investigate. Apparently, on August 24th, Bob Smith, using a Windows 10 workstation named we8105desk, returned to his desk after working out and found his speakers blaring (click below to listen), his desktop image had changed (see below), and his files were inaccessible. Alice has seen this before... ransomware. After a brief conversation with Bob, Alice determines that Bob had found a USB drive in the parking lot earlier in the day, plugged it into his desktop, and opened a Word document on the USB drive called "Miranda_Tate_unveiled.dotm". With a resigned sigh, she begins to dig in. 
+Alice, a new SOC analyst at Wayne Enterprises, notices a **critical ticket** in the queue that has gone untouched. Investigating, she discovers Bob’s workstation is compromised with Cerber ransomware.  
+
+The ransomware left behind **visual and audio evidence**:  
+- **Ransom note screenshot** on the desktop.  
+- **Voice memo warning**, designed to panic the user.  
+
+Alice prepares to analyze both artifacts in a **sandboxed environment** before correlating logs in Splunk.
 
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/721cf2af-5f8a-43c3-99ef-7bf1833c4111" width="50%" alt="sp1"/>
+  <img src="https://github.com/user-attachments/assets/721cf2af-5f8a-43c3-99ef-7bf1833c4111" width="45%" alt="Splunk Intro Evidence"/>
 </div>
 
 ---
 
-<div align="center">
-  <img src="https://github.com/user-attachments/assets/2113c750-4fb1-43b6-9eb8-810a7b13638f" width="60%" alt="spg1"/>
-</div>
+## Pre-Engagement — Evidence Review
+Opening malicious artifacts outside a controlled environment is unsafe.  
+To safely inspect the ransomware note and audio memo, we deploy **Windows Sandbox** to extract properties, capture metadata, and prepare for Splunk-based correlation.
 
-## Pre-Engagement 
-We have two pieces of evidence that we need to examine before we begin our analysis of the environment. First, we have the screen. The URL where the attackers posted their ransomware note, "Ransomware screenshot." Second, we have the voice memo, "Ransomware warning". The memo seems to have been intended to scare the victim, hoping they would make a rash decision and possibly make a mistake by opening these URLs and extracting the content to look for evidence. 
-To do this, we will deploy a sandboxed environment. It's perilous to open URLs from malicious links. Since we're using Windows Sandbox, we can safely visit both URLs without risk. We can inspect the web-facing application and use the information to get some clues. We can then extract both the images and the voice memo. The Sandbox environment allows us to open the properties of the files. We can use this data later when you analyze the Network Traffic in Splunk. <br /> 
+---
 
 ## 📦 Tools Reference
 | Category     | Tool / Feature                     | Purpose                                                     |
@@ -41,21 +60,23 @@ To do this, we will deploy a sandboxed environment. It's perilous to open URLs f
 | Windows      | Sysmon + WinEvent / WinRegistry    | Process/file telemetry; device/USB artifacts                |
 | Parsing      | REX / `stats` / `transaction`      | Extract fields; counts; durations                           |
 
-### Ransomware Screenshot: https://botscontent.netlify.app/v1/cerber-sshot.png `Picture 1.1-Picture 1.2`
+---
 
-<img src="https://github.com/user-attachments/assets/9170860e-4d87-461a-ac46-2de721545ddd" width="40%" alt="Splunk - Ransomware - Pictures 1.1"/>
+### Evidence Artifacts
+- **Screenshot**: https://botscontent.netlify.app/v1/cerber-sshot.png  
+- **Voice Memo**: https://botscontent.netlify.app/v1/cerber-sample-voice.mp3  
 
-`Picture 1.1`
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/9170860e-4d87-461a-ac46-2de721545ddd" width="30%" alt="Picture 1.1"/>
+  <img src="https://github.com/user-attachments/assets/246caec0-34e4-4ee1-839b-20e918704e4c" width="30%" alt="Picture 1.2"/>
+  <img src="https://github.com/user-attachments/assets/029dcabb-18e4-4c7e-913d-ed1bfa51b203" width="30%" alt="Picture 1.3"/>
+</div>
 
-<img src="https://github.com/user-attachments/assets/246caec0-34e4-4ee1-839b-20e918704e4c" width="30%" alt="Splunk - Ransomware - Pictures 1.2"/>
-
-`Picture 1.2`
-
-### Ransomware warning: https://botscontent.netlify.app/v1/cerber-sample-voice.mp3  `Picture 1.3`
-
-<img src="https://github.com/user-attachments/assets/029dcabb-18e4-4c7e-913d-ed1bfa51b203" width="30%" alt="Picture 1.3"/>
-
-`Picture 1.3`
+<p align="center">
+  <i>Picture 1.1 — Ransom note screenshot</i> &nbsp;&nbsp; | &nbsp;&nbsp; 
+  <i>Picture 1.2 — Desktop wallpaper change</i> &nbsp;&nbsp; | &nbsp;&nbsp; 
+  <i>Picture 1.3 — Audio warning memo</i>
+</p>
 
 ---
 
