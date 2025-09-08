@@ -1,14 +1,12 @@
-
 <div align="center">
   <img src="https://github.com/user-attachments/assets/523985a4-07ce-4084-a36c-52a2243e502e" width="99%" alt="Boss of the SOC"/>
 </div>
 
 ---
 
-<h1> Splunk | Ransomware </h1>
-Hector M. Reyes  | SOC Analysis | Boss of the SOC  </b>
-
-[Google Docs Link | Splunk: Ransomware](https://docs.google.com/document/d/19y3aXtqZZPFv6Lv4ywes7nDzFUVKh1VeDm2lGbytTkc/pub)
+# Splunk: Ransomware 
+## Splunk IR Lab — Cerber Ransomware: Detect, Trace, Contain
+Hector M. Reyes| Boss of the SOC | [Google Docs Link | Splunk: Ransomware](https://docs.google.com/document/d/19y3aXtqZZPFv6Lv4ywes7nDzFUVKh1VeDm2lGbytTkc/pub)
 
 <div align="center">
   <img src="https://github.com/user-attachments/assets/aa505c5a-cad1-49ef-96b1-62fa6f2c2272" width="50%" alt="Splunk Image"/>
@@ -16,14 +14,11 @@ Hector M. Reyes  | SOC Analysis | Boss of the SOC  </b>
 
 ---
 
+## **Scenario**
+Bob Smith’s Windows 10 workstation (**we8105desk**) began blasting audio, changed desktop wallpaper, and locked files—classic **ransomware**. Bob admits plugging in a found USB and opening `Miranda_Tate_unveiled.dotm`. Your job: confirm encryption, trace ingress → payload → spread, and document detection + containment + hardening.
+
 ## **Intro to the Ransomware**
 After the excitement of yesterday, Alice has started to settle into her new job. Sadly, she realizes her new colleagues may not be the crack cybersecurity team she was led to believe they would be before joining. Looking through her incident ticketing queue, she noticed that a “critical” ticket had never been addressed. Shaking her head, she begins to investigate. Apparently, on August 24th, Bob Smith, using a Windows 10 workstation named we8105desk, returned to his desk after working out and found his speakers blaring (click below to listen), his desktop image had changed (see below), and his files were inaccessible. Alice has seen this before... ransomware. After a brief conversation with Bob, Alice determines that Bob had found a USB drive in the parking lot earlier in the day, plugged it into his desktop, and opened a Word document on the USB drive called "Miranda_Tate_unveiled.dotm". With a resigned sigh, she begins to dig in. 
-
-### Tools Used
-> - Splunk | SIEM (Security Information and Event Management)
-> - Windows Sandbox | Sandboxie-Plus
-> - VirusTotal | AlientVault 
-> - md5decrypt | REX Expressions
 
 <div align="center">
   <img src="https://github.com/user-attachments/assets/721cf2af-5f8a-43c3-99ef-7bf1833c4111" width="50%" alt="sp1"/>
@@ -51,6 +46,15 @@ https://botscontent.netlify.app/v1/cerber-sample-voice.mp3  (Picture 1.3)
 Picture 1.3 <br/>
 <img src="https://github.com/user-attachments/assets/029dcabb-18e4-4c7e-913d-ed1bfa51b203" width="30%" alt="Picture 1.3"/>
 
+## 📦 Tools Reference
+| Category     | Tool / Feature                     | Purpose                                                     |
+| ------------ | ---------------------------------- | ----------------------------------------------------------- |
+| SIEM         | Splunk                             | Search, detections, evidence timeline                       |
+| Sandbox      | Windows Sandbox / Sandboxie-Plus   | Safe inspection of URLs/files                               |
+| Threat Intel | VirusTotal / AlienVault OTX        | Hash/domain/IP enrichment                                   |
+| Windows      | Sysmon + WinEvent / WinRegistry    | Process/file telemetry; device/USB artifacts                |
+| Parsing      | REX / `stats` / `transaction`      | Extract fields; counts; durations                           |
+
 ---
 
 ## Ransomware 200: (Pictures 1.4 – 1.7)
@@ -62,7 +66,7 @@ We have the hostname we8105desk, and the attack date is August 24, 2016.
 - We see that 192.168.250.100 was active on that date.
 - We can open the address and see that it belonged to we8105desk on that date, confirming our suspicion.
 - Enter Search: index="botsv1" host=we8105desk
-- Answer: 192.168.250.100
+- [ ] Answer: 192.168.250.100
 
 Picture 1.4 <br/>
 <img src="https://github.com/user-attachments/assets/58c4723d-a081-4c90-b2b8-42535999a95e" width="40%" alt="Picture 1.4"/>
@@ -76,6 +80,7 @@ Picture 1.6 <br/>
 Picture 1.7 <br/>
 <img src="https://github.com/user-attachments/assets/ef14cc90-4473-466d-a9c3-57d2f426f978" width="40%" alt="Picture 1.7"/>
 
+---
 
 ## Ransomware 201:  (Pictures 1.8) <br /> 
 Amongst the Suricata signatures that detected the Cerber malware, which one alerted the fewest number of times? Submit ONLY the signature ID value as the answer. <br /> 
@@ -83,12 +88,13 @@ Amongst the Suricata signatures that detected the Cerber malware, which one aler
 - We are looking for the alert.signature_id.
 - We can sort it by count since we know we're looking for the fewest occurrences.
 - You could also sort the events by count to find them.
-- Enter Search: index=botsv1 sourcetype=suricata cerber | stats count by alert.signature_id | sort - count 
-- Answer: 2816763
+- Enter Search: index=botsv1 sourcetype=suricata cerber | stats count by alert.signature_id | sort - count
+- [ ] Answer: 2816763
 
 Picture 1.8 <br/>
 <img src="https://github.com/user-attachments/assets/a6540b60-2ca3-4528-a0be-ebd99b9d74af" width="30%" alt="Picture 1.8"/>
 
+---
 
 ## Ransomware 202: (Pictures 1.9-2.1) 
 What fully qualified domain name (FQDN) does the Cerber ransomware attempt to direct the user to during its encryption phase? <br /> 
@@ -103,7 +109,7 @@ Let's add a DNS filter to our query: "stream: DNS."
 - Now that we had what we were looking for, I opened the event and had the attacker's information, date, and event time. 
 - I will save this Search and take a screenshot for future use.
 - Enter Search: index=botsv1 sourcetype=stream:DNS src_ip=192.168.250.100 NOT query=*.local NOT query=*.arpa  NOT query=*.microsoft.com NOT query=*.msn.com NOT query=*.info query=*.*| table dest_ip _time query
-- Answer: cerberhhyed5frqa.xmfir0.win
+- [ ] Answer: cerberhhyed5frqa.xmfir0.win
 
 Picture 1.9 <br/>
 <img src="https://github.com/user-attachments/assets/1e7ffad3-f69e-45b2-997f-b36ad8953d97" width="30%" alt="Picture 1.9"/>
@@ -114,6 +120,7 @@ Picture 2.0 <br/>
 Picture 2.1 <br/>
 <img src="https://github.com/user-attachments/assets/835d9100-dd18-40c6-ab0b-40b8d9df0105" width="40%" alt="Picture 2.1"/>
 
+---
 
 ## Ransomware 203: (Pictures 2.2-2.5)
 What was the first suspicious domain visited by we8105desk on 24 August 2016? <br /> 
@@ -122,7 +129,7 @@ We can follow the timeline in the query until we encounter the first suspicious 
 - Since we suspect these FQDNs could be malicious, let's return to them. Our Sandbox Container.
 - Here, we can head to the link to inspect the website. 
 - Use a URL analyzer to look past the network traffic of the FQDN for future use.
-- Answer: solidaritedeproximite.org
+- [ ] Answer: solidaritedeproximite.org
 
 Picture 2.2 <br/>
 <img src="https://github.com/user-attachments/assets/5c4d0a64-1a7a-45d0-aefb-84e3cf21f94d" width="50%" alt="Picture 2.2"/>
@@ -136,6 +143,7 @@ Picture 2.4 <br/>
 Picture 2.5 <br/>
 <img src="https://github.com/user-attachments/assets/a17e0683-bb94-42d8-b79d-07b21fa59485" width="30%" alt="Picture 2.5"/>
 
+---
 
 ## Ransomware 204: (Pictures 2.6-2.9)
 What is the name of the USB key inserted by Bob Smith? <br /> 
@@ -149,7 +157,7 @@ We can start by looking at we8105desk's WinRegistry and filtering for a USB.
 - "https://lantern.splunk.com/Splunk_Platform/UCE/Security/Incident_Management/Investigating_a_ransomware_attack/Removable_devices_connected_to_a_machine" (Link 1.1) 
 - "https://learn.microsoft.com/en-us/windows-hardware/drivers/usbcon/usb-device-specific-registry-settings." (Link 1.2) 
 - Enter Search: index=botsv1 sourcetype="winregistry" host=we8105desk friendlyname
-- Answer: MIRANDA_PRI
+- [ ] Answer: MIRANDA_PRI
 
 Picture 2.6 <br/>
 <img src="https://github.com/user-attachments/assets/4340cc89-034d-406b-9134-828d875446c7" width="30%" alt="Picture 2.6"/>
@@ -163,6 +171,7 @@ Picture 2.8 <br/>
 Picture 2.9 <br/>
 <img src="https://github.com/user-attachments/assets/425fdfd7-e272-4795-8dec-c7f57d6b044f" width="50%" alt="Picture 2.9"/>
 
+---
 
 ## Ransomware 206: (Pictures 3.0) 
 Bob Smith's workstation (we8105desk) was connected to a file server during the ransomware outbreak. What is the IPv4 address of the file server? <br /> 
@@ -170,11 +179,12 @@ Bob Smith's workstation (we8105desk) was connected to a file server during the r
 - We replace the "friendlyname" name filter with "fileshare".
 - We can see host = we8105desk is connecting to #192.168.250.20#fileshare
 - Enter Search: index=botsv1 sourcetype="winregistry" host=we8105desk fileshare
-- Answer: 192.168.250.20
+- [ ] Answer: 192.168.250.20
 
 Picture 3.0 <br/>
 <img src="https://github.com/user-attachments/assets/93490f93-0c23-43de-adaf-dde888ff0d59" width="50%" alt="Picture 3.0"/>
 
+---
 
 ## Ransomware 207: (Pictures 3.1-3.2) 
 How many distinct PDFs did the ransomware encrypt on the remote file server? <br /> 
@@ -185,7 +195,7 @@ We can find the file server's name on the same line where we saw its IP.
 - We look at the distant value to count which file could have been encrypted in this list. We can use "dc" and "stat" and filter it using "Relative_Target_Name" in our command.
 -  | stats dc(Relative_Target_Name)
 - Enter Search: index=botsv1 host=we9041srv *.pdf | stats dc(Relative_Target_Name)
-- Answer: we9041srv
+- [ ] Answer: we9041srv
 
 Picture 3.1 <br/>
 <img src="https://github.com/user-attachments/assets/a9a5ad65-596d-4b26-a639-ccc70904113b" width="50%" alt="Picture 3.1"/>
@@ -193,17 +203,20 @@ Picture 3.1 <br/>
 Picture 3.2 <br/>
 <img src="https://github.com/user-attachments/assets/c8adc787-496c-4d0e-b8bf-518a12e7ee6e" width="40%" alt="Picture 3.2"/>
 
+---
 
 ## Ransomware 208: (Pictures 3.3)  
 The VBScript found in question 204 launches 121214.tmp. What is the ParentProcessId of this initial launch? (Pictures 1.1 – 1.4) <br /> 
 Since we know the file name, we can return to the query we saved from step 204.
 - Filter the scripts by adding the file name and looking at the parent_process_id field.
 - Enter Search:  index=botsv1 sourcetype="xmlwineventlog:microsoft-windows-sysmon/operational" *.vbs 121214.tmp
-- Answer: 3968
+- [ ] Answer: 3968
 
 Picture 3.3 <br/>
 <img src="https://github.com/user-attachments/assets/ad3c9595-bfe2-472c-98a3-1c9bb6f5d3c0" width="30%" alt="Picture 3.3"/>
 
+
+---
 
 ## Ransomware 209: (Pictures 3.4) 
 The Cerber ransomware encrypts files located in Bob Smith's Windows profile. How many .txt files does it encrypt? <br /> 
@@ -211,18 +224,19 @@ The Cerber ransomware encrypts files located in Bob Smith's Windows profile. How
 - We can add ".txt" to his directory and use the "stats dc" command to improve our results.
 - If you want his directory location for the search, click on his directory.
 - Enter Search: index="botsv1" host=we8105desk sourcetype="XmlWinEventLog:Microsoft-Windows-Sysmon/Operational" TargetFilename="C:\\Users\\bob.smith.WAYNECORPINC\\*.txt" | stats dc(TargetFilename)
-- Answer: 406
+- [ ] Answer: 406
 
 Picture 3.4 <br/>
 <img src="https://github.com/user-attachments/assets/457b12dc-67f9-4cdd-baec-20592d907094" width="50%" alt="Picture 3.4"/>
 
+---
 
 ## Ransomware 210: (Pictures 3.5-3.6) 
 The malware downloads a file that contains the Cerber ransomware cryptor code. What is the name of that file? <br /> 
 - To get the file name, we head back to Suricata and inspect the network packets. 
 - We can look at the raw text of the suspicious domain we found earlier. We found a .jpg.
 - Enter Search: index=botsv1 sourcetype=suricata dest_ip="192.168.250.100"  "http.hostname"="solidaritedeproximite.org"
-- Answer: mhtr.jpg
+- [ ] Answer: mhtr.jpg
 
 Picture 3.5 <br/>
 <img src="https://github.com/user-attachments/assets/99ea1310-ba89-40fa-a9e1-94ece3814761" width="40%" alt="Picture 3.5"/>
@@ -230,21 +244,58 @@ Picture 3.5 <br/>
 Picture 3.6 <br/>
 <img src="https://github.com/user-attachments/assets/150a20dd-7ae2-431e-a4f6-b67596ac26a7" width="50%" alt="Picture 3.6"/>
 
+---
 
 ## Ransomware 211: (Pictures 3.7)
 Now that you know the name of the ransomware's encryptor file, what obfuscation technique is it likely to use? <br /> 
 - From here, we grab the field hash. We can use an analyzer like Virustotal.com.
 - This type of technique is commonly used. 
 - A quick search can reveal how this kind of file has been decoded in the past. We just needed the URL.
-- Answer: Steganography
+- [ ] Answer: Steganography
 
 Picture 3.7 <br/>
 <img src="https://github.com/user-attachments/assets/be99b708-c5fe-4929-8343-09d6c03a9c6d" width="50%" alt="Picture 3.7"/>
 
----
 
 <img src="https://github.com/user-attachments/assets/da0a82ab-1698-4051-bc22-1460114541c9" width="50%" alt="Graph 11"/>
 
+---
+
+## 🔄 **Recap — Step by Step**
+| Phase                     | Implementation                                                       | Purpose                                   |
+| ------------------------ | -------------------------------------------------------------------- | ----------------------------------------- |
+| Bound the Window         | Mark first alert/user report + last known-good for `we8105desk`      | Keep searches tight and relevant          |
+| Identify Patient-Zero    | Confirm host/IP (e.g., `we8105desk` → `192.168.250.100`)             | Anchor the hunt to a single endpoint      |
+| Early DNS Signals        | Timeline suspicious FQDNs (filter benign *.local/*.arpa/MS domains)  | Catch ransomware infra early              |
+| Payload Delivery         | Correlate Suricata/HTTP → cryptor fetch (e.g., `mhtr.jpg`)           | Prove how the encryptor arrived           |
+| Process Lineage          | Sysmon chain (e.g., `VBScript → 121214.tmp`, capture PPID)           | Tie execution to parent/child processes   |
+| Encryption Signals       | Spikes in file creates/renames + new extensions in user profile      | Confirm active encryption on host         |
+| Lateral Movement / SMB   | File-server access (e.g., `we9041srv`) + distinct files encrypted    | Measure spread and business impact        |
+| Removable Media Evidence | WinRegistry artifacts (USB friendly name like `MIRANDA_PRI`)          | Validate initial vector (USB lure)        |
+| Collect IoCs & Evidence  | FQDNs, IPs, hashes, filenames, screenshots, exact timestamps         | Support containment and post-mortems      |
+| Contain & Recover        | Isolate host, block IoCs, disable accounts, restore from backups     | Stop spread and return to good state      |
+| Harden                   | DNS egress rules, ASR/AppLocker, macro blocking, least-priv SMB      | Reduce recurrence / shrink attack surface |
+| Operationalize           | Saved searches, alerts/dashboards, backup validation & runbook       | Make response repeatable and faster       |
+
+---
+
+## 📚 **Lessons Learned**
+- [ ] **Early DNS pays off:** Filtering benign domains surfaces ransomware infra quickly.  
+     - DNS timelines gave first touchpoints before heavy encryption noise appeared.
+- [ ] **Process lineage matters:** Parent/child chains cut through endpoint noise.  
+     - VBS → TMP → encryptor established causality you can act on.
+- [ ] **Velocity > volume:** Write-rate spikes + new extensions are high-signal.  
+     - Baselines made abnormal file creation jumps obvious.
+- [ ] **Registry is gold for ingress:** USB artifacts confirmed the lure.  
+     - Friendly-name keys tied the story together.
+- [ ] **Quantify impact:** Distinct files encrypted on shares guide triage/comms.  
+     - Counts per host/share prioritize isolation and recovery.
+- [ ] **Repeatability wins:** Turn ad-hoc hunts into alerts/dashboards & RBA.  
+     - Codifying detections shrinks MTTR and improves consistency.
+- [ ] **Evidence discipline:** IoCs + screenshots + exact times enable audits & clean handoffs.  
+     - Makes IR documentation and lessons-learned actionable.
+
+---
 
 ## **Conclusion**
 This project demonstrates how Splunk can be utilized to detect and investigate ransomware attacks. By analyzing event logs from a simulated incident, we identified key indicators of compromise, such as unauthorized file encryption activity, suspicious PowerShell commands, and abnormal system behavior associated with ransomware execution.
