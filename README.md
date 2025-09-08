@@ -20,7 +20,9 @@
 Key skills:
 > Splunk SPL queries, timeline reconstruction, process lineage, registry analysis, DNS filtering, IOC extraction, and IR playbook design.
 
-## **Scenario**
+---
+
+# **Scenario**
 
 After the excitement of yesterday, Alice has started to settle into her new job. Sadly, she realizes her new colleagues may not be the crack cybersecurity team she was led to believe before joining. Looking through her incident ticketing queue, she noticed a “critical” ticket was never addressed. Shaking her head, she begins to investigate. Apparently, on August 24th, Bob Smith (using a Windows 10 workstation named we8105desk) came back to his desk after working out and found his speakers blaring (click below to listen), his desktop image changed (see below) and his files inaccessible. Alice has seen this before... ransomware. After a quick conversation with Bob, Alice determines that Bob found a USB drive in the parking lot earlier in the day, plugged it into his desktop, and opened up a Word document on the USB drive called "Miranda_Tate_unveiled.dotm". With a resigned sigh, she begins to dig in.
 
@@ -30,7 +32,7 @@ After the excitement of yesterday, Alice has started to settle into her new job.
 
 --- 
 
-## **Intro to the Ransomware**
+# **Intro to the Ransomware**
 ### Your Assignment (Objectives)
 The main goal of this lab is to confirm ransomware activity, trace how it entered the environment, and document the attacker’s path. As the SOC analyst, you must identify the infected host, understand the infection vector, and collect supporting evidence for containment and remediation. By following each step, you will gain experience with Splunk queries, correlation, and building repeatable workflows for incident response.
 - Confirm Cerber encryption activity on the host we8105desk.
@@ -72,7 +74,7 @@ Before starting Splunk hunts, I staged my environment and outlined the necessary
 - **Time Window**: Aug 24, 2016 (00:00–23:59).  
 - **Primary Host**: `we8105desk` (expected IP ≈ `192.168.250.100`).  
 - **Key Data Sources**:  
-  - `stream:DNS` → suspicious domains.  
+  - `stream: DNS` → suspicious domains.  
   - `suricata` → payload delivery.  
   - `XmlWinEventLog:Sysmon` → process lineage + encryption activity.  
   - `winregistry` → USB artifacts + persistence checks.  
@@ -94,8 +96,9 @@ Before starting Splunk hunts, I staged my environment and outlined the necessary
 | Windows      | Sysmon + WinEvent / WinRegistry    | Process/file telemetry; device/USB artifacts                |
 | Parsing      | REX / `stats` / `transaction`      | Extract fields; counts; durations                           |
 
----
+<img src="https://github.com/user-attachments/assets/da0a82ab-1698-4051-bc22-1460114541c9" width="70%" alt="Graph 11"/>
 
+---
 
 ## Ransomware 200 — Identify Patient-Zero (Host IPv4)
 What was the most likely IPv4 address of we8105desk on 24AUG2016? <br /> 
@@ -430,8 +433,6 @@ Validate: Enrich the hash in VT/OTX; note image-carrier behavior.
 <img src="https://github.com/user-attachments/assets/be99b708-c5fe-4929-8343-09d6c03a9c6d" width="50%" alt="Picture 3.7"/>
 
 `Picture 3.7`
-
-<img src="https://github.com/user-attachments/assets/da0a82ab-1698-4051-bc22-1460114541c9" width="50%" alt="Graph 11"/>
 
 ---
 
