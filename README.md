@@ -70,7 +70,7 @@ We have the hostname we8105desk, and the attack date is August 24, 2016.
 - Enter Search: index="botsv1" host=we8105desk
 
 **SPL**
-```spl
+```
 index=botsv1 host=we8105desk earliest=08/24/2016:00:00:00 latest=08/25/2016:00:00:00
 | stats dc(src_ip) as srcs values(src_ip) as ips
 ```
@@ -95,14 +95,22 @@ You can just browse events for that day; confirm src_ip in context.
 
 ---
 
-## Ransomware 201
+## Ransomware 201 — 
 Amongst the Suricata signatures that detected the Cerber malware, which one alerted the fewest number of times? Submit ONLY the signature ID value as the answer. <br /> 
 - First, we need to determine where the signature could be located. We can access the source by going to the Suricata event logs. 
 - We are looking for the alert.signature_id.
 - We can sort it by count since we know we're looking for the fewest occurrences.
 - You could also sort the events by count to find them.
 - Enter Search: index=botsv1 sourcetype=suricata cerber | stats count by alert.signature_id | sort - count
-- [ ] Answer: 2816763
+
+**SPL**
+```
+index=botsv1 sourcetype=suricata cerber earliest=08/24/2016:00:00:00 latest=08/25/2016:00:00:00
+| stats count by alert.signature_id
+| sort count
+| head 1
+```
+- [ ] **Answer:** 2816763
 
 <img src="https://github.com/user-attachments/assets/a6540b60-2ca3-4528-a0be-ebd99b9d74af" width="30%" alt="Picture 1.8"/>
 
@@ -110,7 +118,7 @@ Amongst the Suricata signatures that detected the Cerber malware, which one aler
 
 ---
 
-## Ransomware 202 
+## Ransomware 202 — 
 What fully qualified domain name (FQDN) does the Cerber ransomware attempt to direct the user to during its encryption phase? <br /> 
 Let's add a DNS filter to our query: "stream: DNS." 
 - We can use your IP address from 200 as the source IP.
@@ -123,7 +131,15 @@ Let's add a DNS filter to our query: "stream: DNS."
 - Now that we had what we were looking for, I opened the event and had the attacker's information, date, and event time. 
 - I will save this Search and take a screenshot for future use.
 - Enter Search: index=botsv1 sourcetype=stream:DNS src_ip=192.168.250.100 NOT query=*.local NOT query=*.arpa  NOT query=*.microsoft.com NOT query=*.msn.com NOT query=*.info query=*.*| table dest_ip _time query
-- [ ] Answer: cerberhhyed5frqa.xmfir0.win
+
+**SPL**
+```
+index=botsv1 sourcetype=stream:DNS src_ip=192.168.250.100 earliest=08/24/2016:00:00:00 latest=08/25/2016:00:00:00
+| search NOT query=*.local NOT query=*.arpa NOT query=*.microsoft.com NOT query=*.msn.com NOT query=*.info
+| table _time query dest_ip
+| sort _time
+```
+- [ ] **Answer:** cerberhhyed5frqa.xmfir0.win
 
 <img src="https://github.com/user-attachments/assets/1e7ffad3-f69e-45b2-997f-b36ad8953d97" width="30%" alt="Picture 1.9"/>
 
@@ -139,14 +155,23 @@ Let's add a DNS filter to our query: "stream: DNS."
 
 ---
 
-## Ransomware 203
+## Ransomware 203 — 
 What was the first suspicious domain visited by we8105desk on 24 August 2016? <br /> 
 - We already have the FQDNs sorted by time in the query, and we now know the time of the attack.
 We can follow the timeline in the query until we encounter the first suspicious domain.
 - Since we suspect these FQDNs could be malicious, let's return to them. Our Sandbox Container.
 - Here, we can head to the link to inspect the website. 
 - Use a URL analyzer to look past the network traffic of the FQDN for future use.
-- [ ] Answer: solidaritedeproximite.org
+
+**SPL**
+```
+index=botsv1 sourcetype=stream:DNS src_ip=192.168.250.100 earliest=08/24/2016:00:00:00 latest=08/25/2016:00:00:00
+| search NOT query=*.local NOT query=*.arpa NOT query=*.microsoft.com NOT query=*.msn.com
+| table _time query
+| sort 0 _time
+| head 1
+```
+- [ ] **Answer:** solidaritedeproximite.org
 
 <img src="https://github.com/user-attachments/assets/5c4d0a64-1a7a-45d0-aefb-84e3cf21f94d" width="50%" alt="Picture 2.2"/>
 
@@ -166,7 +191,7 @@ We can follow the timeline in the query until we encounter the first suspicious 
 
 ---
 
-## Ransomware 204
+## Ransomware 204 — 
 What is the name of the USB key inserted by Bob Smith? <br /> 
 We can start by looking at we8105desk's WinRegistry and filtering for a USB.
 - Enter Search: index=botsv1 sourcetype="winregistry" host=we8105desk * USB”
@@ -178,7 +203,14 @@ We can start by looking at we8105desk's WinRegistry and filtering for a USB.
 - "https://lantern.splunk.com/Splunk_Platform/UCE/Security/Incident_Management/Investigating_a_ransomware_attack/Removable_devices_connected_to_a_machine"  `Link 1.1`
 - "https://learn.microsoft.com/en-us/windows-hardware/drivers/usbcon/usb-device-specific-registry-settings." `Link 1.2`. 
 - Enter Search: index=botsv1 sourcetype="winregistry" host=we8105desk friendlyname
-- [ ] Answer: MIRANDA_PRI
+
+**SPL**
+```
+index=botsv1 sourcetype=winregistry host=we8105desk earliest=08/24/2016:00:00:00 latest=08/25/2016:00:00:00 friendlyname
+| table _time host friendlyname data_* registry_path
+| sort _time
+```
+- [ ] **Answer:** MIRANDA_PRI
 
 <img src="https://github.com/user-attachments/assets/4340cc89-034d-406b-9134-828d875446c7" width="30%" alt="Picture 2.6"/>
 
@@ -198,13 +230,26 @@ We can start by looking at we8105desk's WinRegistry and filtering for a USB.
 
 ---
 
-## Ransomware 206
+## Ransomware 205 — 🚫 Outdated
+These steps were part of earlier BOTS v1 material, but the supporting data/events are no longer present in the current dataset.  
+👉 They have been intentionally skipped in this walkthrough.
+
+---
+
+## Ransomware 206 — 
 Bob Smith's workstation `we8105desk` was connected to a file server during the ransomware outbreak. What is the IPv4 address of the file server? <br /> 
 - We can stay in the same query since we were looking at the Windows registry of the host we8105desk. 
 - We replace the "friendlyname" name filter with "fileshare".
 - We can see host = we8105desk is connecting to #192.168.250.20#fileshare
 - Enter Search: index=botsv1 sourcetype="winregistry" host=we8105desk fileshare
-- [ ] Answer: 192.168.250.20
+
+**SPL**
+```
+index=botsv1 sourcetype=winregistry host=we8105desk earliest=08/24/2016:00:00:00 latest=08/25/2016:00:00:00 fileshare
+| table _time host data_*
+| sort _time
+```
+- [ ] **Answer:** 192.168.250.20
 
 <img src="https://github.com/user-attachments/assets/93490f93-0c23-43de-adaf-dde888ff0d59" width="50%" alt="Picture 3.0"/>
 
@@ -212,7 +257,7 @@ Bob Smith's workstation `we8105desk` was connected to a file server during the r
 
 ---
 
-## Ransomware 207
+## Ransomware 207 — 
 How many distinct PDFs did the ransomware encrypt on the remote file server? <br /> 
 We can find the file server's name on the same line where we saw its IP.
 - DestinationHostname = we9041srv
@@ -221,7 +266,13 @@ We can find the file server's name on the same line where we saw its IP.
 - We look at the distant value to count which file could have been encrypted in this list. We can use "dc" and "stat" and filter it using "Relative_Target_Name" in our command.
 -  | stats dc(Relative_Target_Name)
 - Enter Search: index=botsv1 host=we9041srv *.pdf | stats dc(Relative_Target_Name)
-- [ ] Answer: we9041srv
+
+**SPL**
+```
+index=botsv1 host=we9041srv "*.pdf" earliest=08/24/2016:00:00:00 latest=08/25/2016:00:00:00
+| stats dc(Relative_Target_Name) as distinct_pdfs
+```
+- [ ] **Answer:** we9041srv
 
 <img src="https://github.com/user-attachments/assets/a9a5ad65-596d-4b26-a639-ccc70904113b" width="50%" alt="Picture 3.1"/>
 
@@ -233,12 +284,19 @@ We can find the file server's name on the same line where we saw its IP.
 
 ---
 
-## Ransomware 208
+## Ransomware 208 — 
 The VBScript found in question 204 launches 121214.tmp. What is the ParentProcessId of this initial launch? `Pictures 1.1 – 1.4` <br /> 
 Since we know the file name, we can return to the query we saved from step 204.
 - Filter the scripts by adding the file name and looking at the parent_process_id field.
 - Enter Search:  index=botsv1 sourcetype="xmlwineventlog:microsoft-windows-sysmon/operational" *.vbs 121214.tmp
-- [ ] Answer: 3968
+
+**SPL**
+```
+index=botsv1 sourcetype="XmlWinEventLog:Microsoft-Windows-Sysmon/Operational" ("*.vbs" OR "121214.tmp") earliest=08/24/2016:00:00:00 latest=08/25/2016:00:00:00
+| table _time host Image ParentImage ProcessId ParentProcessId CommandLine
+| sort _time
+```
+- [ ] **Answer:** 3968
 
 <img src="https://github.com/user-attachments/assets/ad3c9595-bfe2-472c-98a3-1c9bb6f5d3c0" width="30%" alt="Picture 3.3"/>
 
@@ -246,13 +304,20 @@ Since we know the file name, we can return to the query we saved from step 204.
 
 ---
 
-## Ransomware 209
+## Ransomware 209 — 
 The Cerber ransomware encrypts files located in Bob Smith's Windows profile. How many .txt files does it encrypt? <br /> 
 - We can return to our earlier query, where we have Bob's hostname and directory.
 - We can add ".txt" to his directory and use the "stats dc" command to improve our results.
 - If you want his directory location for the search, click on his directory.
 - Enter Search: index="botsv1" host=we8105desk sourcetype="XmlWinEventLog:Microsoft-Windows-Sysmon/Operational" TargetFilename="C:\\Users\\bob.smith.WAYNECORPINC\\*.txt" | stats dc(TargetFilename)
-- [ ] Answer: 406
+
+**SPL**
+```
+index=botsv1 host=we8105desk sourcetype="XmlWinEventLog:Microsoft-Windows-Sysmon/Operational" \
+TargetFilename="C:\\Users\\bob.smith.WAYNECORPINC\\*.txt" earliest=08/24/2016:00:00:00 latest=08/25/2016:00:00:00
+| stats dc(TargetFilename) as distinct_txt
+```
+- [ ] **Answer:** 406
 
 <img src="https://github.com/user-attachments/assets/457b12dc-67f9-4cdd-baec-20592d907094" width="50%" alt="Picture 3.4"/>
 
@@ -260,12 +325,20 @@ The Cerber ransomware encrypts files located in Bob Smith's Windows profile. How
 
 ---
 
-## Ransomware 210
+## Ransomware 210 — 
 The malware downloads a file that contains the Cerber ransomware cryptor code. What is the name of that file? <br /> 
 - To get the file name, we head back to Suricata and inspect the network packets. 
 - We can look at the raw text of the suspicious domain we found earlier. We found a .jpg.
 - Enter Search: index=botsv1 sourcetype=suricata dest_ip="192.168.250.100"  "http.hostname"="solidaritedeproximite.org"
-- [ ] Answer: mhtr.jpg
+
+**SPL**
+```
+index=botsv1 sourcetype=suricata dest_ip="192.168.250.100" "http.hostname"="solidaritedeproximite.org" earliest=08/24/2016:00:00:00 latest=08/25/2016:00:00:00
+| eval filename=coalesce(fileinfo.filename, http.uri)
+| table _time http.hostname http.uri filename
+| sort _time
+```
+- [ ] **Answer:** mhtr.jpg
 
 <img src="https://github.com/user-attachments/assets/99ea1310-ba89-40fa-a9e1-94ece3814761" width="40%" alt="Picture 3.5"/>
 
@@ -277,12 +350,19 @@ The malware downloads a file that contains the Cerber ransomware cryptor code. W
 
 ---
 
-## Ransomware 211
+## Ransomware 211 — 
 Now that you know the name of the ransomware's encryptor file, what obfuscation technique is it likely to use? <br /> 
 - From here, we grab the field hash. We can use an analyzer like Virustotal.com.
 - This type of technique is commonly used. 
 - A quick search can reveal how this kind of file has been decoded in the past. We just needed the URL.
-- [ ] Answer: Steganography
+
+**SPL**
+```
+index=botsv1 sourcetype=suricata dest_ip="192.168.250.100" earliest=08/24/2016:00:00:00 latest=08/25/2016:00:00:00
+| search http.hostname="solidaritedeproximite.org" OR fileinfo.filename=* OR fileinfo.md5=* OR fileinfo.sha256=*
+| table _time http.hostname http.uri fileinfo.filename fileinfo.md5 fileinfo.sha256
+```
+- [ ] **Answer:** Steganography
 
 <img src="https://github.com/user-attachments/assets/be99b708-c5fe-4929-8343-09d6c03a9c6d" width="50%" alt="Picture 3.7"/>
 
