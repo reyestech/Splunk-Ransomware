@@ -8,11 +8,9 @@
 ### Splunk IR Lab — Cerber Ransomware: Detect, Trace, Contain
 Hector M. Reyes| Boss of the SOC | [Google Docs Link | Splunk: Ransomware](https://docs.google.com/document/d/19y3aXtqZZPFv6Lv4ywes7nDzFUVKh1VeDm2lGbytTkc/pub)
 
-<div align="center">
-  <img src="https://github.com/user-attachments/assets/aa505c5a-cad1-49ef-96b1-62fa6f2c2272" width="50%" alt="Splunk Image"/>
-</div>
-
 ---
+
+![1723128680918](https://github.com/user-attachments/assets/39d8bb3d-2dc3-4579-a89c-526ecf50c487)
 
 ## **Scenario**
 Bob Smith’s Windows 10 workstation (**we8105desk**) began blasting audio, changed desktop wallpaper, and locked files—classic **ransomware**. Bob admits plugging in a found USB and opening `Miranda_Tate_unveiled.dotm`. Your job: confirm encryption, trace ingress → payload → spread, and document detection + containment + hardening.
@@ -26,7 +24,9 @@ After the excitement of yesterday, Alice has started to settle into her new job.
 
 ---
 
-<img src="https://github.com/user-attachments/assets/2113c750-4fb1-43b6-9eb8-810a7b13638f" width="60%" alt="spg1"/>
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/2113c750-4fb1-43b6-9eb8-810a7b13638f" width="60%" alt="spg1"/>
+</div>
 
 ## Pre-Engagement 
 We have two pieces of evidence that we need to examine before we begin our analysis of the environment. First, we have the screen. The URL where the attackers posted their ransomware note, "Ransomware screenshot." Second, we have the voice memo, "Ransomware warning". The memo seems to have been intended to scare the victim, hoping they would make a rash decision and possibly make a mistake by opening these URLs and extracting the content to look for evidence. 
@@ -59,7 +59,7 @@ To do this, we will deploy a sandboxed environment. It's perilous to open URLs f
 
 ---
 
-## Ransomware 200
+## Ransomware 200 — Identify Patient-Zero (Host IPv4)
 What was the most likely IPv4 address of we8105desk on 24AUG2016? <br /> 
 We have the hostname we8105desk, and the attack date is August 24, 2016.
 - We can create our query to begin our analysis. 
@@ -68,6 +68,7 @@ We have the hostname we8105desk, and the attack date is August 24, 2016.
 - We see that 192.168.250.100 was active on that date.
 - We can open the address and see that it belonged to we8105desk on that date, confirming our suspicion.
 - Enter Search: index="botsv1" host=we8105desk
+> Answer guidance: Enter an IPv4 address only, e.g., 192.168.1.10.
 
 **SPL**
 ```
@@ -95,13 +96,14 @@ You can just browse events for that day; confirm src_ip in context.
 
 ---
 
-## Ransomware 201 — 
+## Ransomware 201 — Suricata Signature With Fewest Alerts
 Amongst the Suricata signatures that detected the Cerber malware, which one alerted the fewest number of times? Submit ONLY the signature ID value as the answer. <br /> 
 - First, we need to determine where the signature could be located. We can access the source by going to the Suricata event logs. 
 - We are looking for the alert.signature_id.
 - We can sort it by count since we know we're looking for the fewest occurrences.
 - You could also sort the events by count to find them.
 - Enter Search: index=botsv1 sourcetype=suricata cerber | stats count by alert.signature_id | sort - count
+> Answer guidance: Enter the Suricata signature ID only, e.g., 2816763.
 
 **SPL**
 ```
@@ -118,7 +120,7 @@ index=botsv1 sourcetype=suricata cerber earliest=08/24/2016:00:00:00 latest=08/2
 
 ---
 
-## Ransomware 202 — 
+## Ransomware 202 — FQDN Used During Encryption
 What fully qualified domain name (FQDN) does the Cerber ransomware attempt to direct the user to during its encryption phase? <br /> 
 Let's add a DNS filter to our query: "stream: DNS." 
 - We can use your IP address from 200 as the source IP.
@@ -155,7 +157,7 @@ index=botsv1 sourcetype=stream:DNS src_ip=192.168.250.100 earliest=08/24/2016:00
 
 ---
 
-## Ransomware 203 — 
+## Ransomware 203 — First Suspicious Domain Visited
 What was the first suspicious domain visited by we8105desk on 24 August 2016? <br /> 
 - We already have the FQDNs sorted by time in the query, and we now know the time of the attack.
 We can follow the timeline in the query until we encounter the first suspicious domain.
@@ -191,7 +193,7 @@ index=botsv1 sourcetype=stream:DNS src_ip=192.168.250.100 earliest=08/24/2016:00
 
 ---
 
-## Ransomware 204 — 
+## Ransomware 204 — USB Key Name (WinRegistry)
 What is the name of the USB key inserted by Bob Smith? <br /> 
 We can start by looking at we8105desk's WinRegistry and filtering for a USB.
 - Enter Search: index=botsv1 sourcetype="winregistry" host=we8105desk * USB”
@@ -236,7 +238,7 @@ These steps were part of earlier BOTS v1 material, but the supporting data/event
 
 ---
 
-## Ransomware 206 — 
+## Ransomware 206 — File Server IPv4
 Bob Smith's workstation `we8105desk` was connected to a file server during the ransomware outbreak. What is the IPv4 address of the file server? <br /> 
 - We can stay in the same query since we were looking at the Windows registry of the host we8105desk. 
 - We replace the "friendlyname" name filter with "fileshare".
@@ -257,7 +259,7 @@ index=botsv1 sourcetype=winregistry host=we8105desk earliest=08/24/2016:00:00:00
 
 ---
 
-## Ransomware 207 — 
+## Ransomware 207 — Distinct PDFs Encrypted on the File Server
 How many distinct PDFs did the ransomware encrypt on the remote file server? <br /> 
 We can find the file server's name on the same line where we saw its IP.
 - DestinationHostname = we9041srv
@@ -272,7 +274,7 @@ We can find the file server's name on the same line where we saw its IP.
 index=botsv1 host=we9041srv "*.pdf" earliest=08/24/2016:00:00:00 latest=08/25/2016:00:00:00
 | stats dc(Relative_Target_Name) as distinct_pdfs
 ```
-- [ ] **Answer:** we9041srv
+- [ ] **Answer:** we9041srv or `526`
 
 <img src="https://github.com/user-attachments/assets/a9a5ad65-596d-4b26-a639-ccc70904113b" width="50%" alt="Picture 3.1"/>
 
@@ -284,11 +286,12 @@ index=botsv1 host=we9041srv "*.pdf" earliest=08/24/2016:00:00:00 latest=08/25/20
 
 ---
 
-## Ransomware 208 — 
+## Ransomware 208 — ParentProcessId for VBScript → 121214.tmp
 The VBScript found in question 204 launches 121214.tmp. What is the ParentProcessId of this initial launch? `Pictures 1.1 – 1.4` <br /> 
 Since we know the file name, we can return to the query we saved from step 204.
 - Filter the scripts by adding the file name and looking at the parent_process_id field.
 - Enter Search:  index=botsv1 sourcetype="xmlwineventlog:microsoft-windows-sysmon/operational" *.vbs 121214.tmp
+> Answer guidance: Enter the ParentProcessId as an integer, e.g., 3968.
 
 **SPL**
 ```
@@ -304,7 +307,7 @@ index=botsv1 sourcetype="XmlWinEventLog:Microsoft-Windows-Sysmon/Operational" ("
 
 ---
 
-## Ransomware 209 — 
+## Ransomware 209 — .txt Files Encrypted in Bob’s Profile
 The Cerber ransomware encrypts files located in Bob Smith's Windows profile. How many .txt files does it encrypt? <br /> 
 - We can return to our earlier query, where we have Bob's hostname and directory.
 - We can add ".txt" to his directory and use the "stats dc" command to improve our results.
@@ -325,11 +328,12 @@ TargetFilename="C:\\Users\\bob.smith.WAYNECORPINC\\*.txt" earliest=08/24/2016:00
 
 ---
 
-## Ransomware 210 — 
+## Ransomware 210 — Name of Downloaded Cryptor
 The malware downloads a file that contains the Cerber ransomware cryptor code. What is the name of that file? <br /> 
 - To get the file name, we head back to Suricata and inspect the network packets. 
 - We can look at the raw text of the suspicious domain we found earlier. We found a .jpg.
 - Enter Search: index=botsv1 sourcetype=suricata dest_ip="192.168.250.100"  "http.hostname"="solidaritedeproximite.org"
+> Answer guidance: Please include the file name with extension.
 
 **SPL**
 ```
@@ -350,7 +354,7 @@ index=botsv1 sourcetype=suricata dest_ip="192.168.250.100" "http.hostname"="soli
 
 ---
 
-## Ransomware 211 — 
+## Ransomware 211 — Likely Obfuscation Technique
 Now that you know the name of the ransomware's encryptor file, what obfuscation technique is it likely to use? <br /> 
 - From here, we grab the field hash. We can use an analyzer like Virustotal.com.
 - This type of technique is commonly used. 
@@ -415,7 +419,8 @@ The same rhythm applies in production: observe → correlate → validate → ha
 
 Next: Extend to Risk-Based Alerting (weight DNS + write spikes + lineage) and add SOAR actions for rapid isolation and backup validation.
 
-<img src="https://github.com/user-attachments/assets/1370fda4-5387-45b7-8efd-243db80a7ec2" width="60%" alt="Graph Conclusion"/>
+<img width="1536" height="864" alt="image" src="https://github.com/user-attachments/assets/7c07939c-16f6-459d-962d-f7e3724243ec" />
+
 
 
 
