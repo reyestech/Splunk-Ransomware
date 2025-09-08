@@ -8,66 +8,43 @@
 ### Splunk IR Lab — Cerber Ransomware: Detect, Trace, Contain  
 **Hector M. Reyes | Boss of the SOC** | `02 Feb 2024`
 
-Ransomware IR Lab (Cerber) — TL;DR
-> - Used Splunk’s SIEM to investigate and confirmed Cerber ransomware on Bob Smith’s workstation (we8105desk).
-> - Traced the path: USB lure → Word macro → VBScript/TMP payload → encryption → lateral spread to file server.
-> - Documented detections (DNS anomalies, Suricata hits, Sysmon process chains, WinRegistry USB artifacts) plus containment and hardening.
-
-Key skills showcased:
-> Splunk SPL queries, timeline reconstruction, process lineage, registry analysis, DNS filtering, IOC extraction, and IR playbook design.
-
 <div align="center">
   <img src="https://github.com/user-attachments/assets/39d8bb3d-2dc3-4579-a89c-526ecf50c487" width="50%" alt="Cerber Ransomware"/>
 </div>
 
+📝 TL;DR
+- Confirmed Cerber ransomware on the host we8105desk using Splunk SIEM data.
+- Traced infection path: USB lure → Word macro → VBScript payload → encryption → lateral spread.
+- Captured IoCs (IPs, hashes, filenames, registry keys) and documented detection, containment, and hardening.
+
+Key skills:
+> Splunk SPL queries, timeline reconstruction, process lineage, registry analysis, DNS filtering, IOC extraction, and IR playbook design.
+
 ## **Scenario**
-On August 24, 2016, Bob Smith’s Windows 10 workstation (**we8105desk**) began blasting audio, changed desktop wallpaper, and locked files—classic signs of **Cerber ransomware**.  
 
-During triage, Bob admitted he had plugged in a USB drive he found in the parking lot and opened a suspicious Word document:  
-`Miranda_Tate_unveiled.dotm`  
-
-Your assignment:  
-- Confirm encryption activity.  
-- Trace ingress → payload → lateral spread.  
-- Document detection, containment, and hardening steps.  
-
----
-
-## **Intro to the Ransomware**
-Alice, a new SOC analyst at Wayne Enterprises, notices a **critical ticket** in the queue that has gone untouched. Investigating, she discovers Bob’s workstation is compromised with Cerber ransomware.  
-
-The ransomware left behind **visual and audio evidence**:  
-- **Ransom note screenshot** on the desktop.  
-- **Voice memo warning**, designed to panic the user.  
-
-Alice prepares to analyze both artifacts in a **sandboxed environment** before correlating logs in Splunk.
+After the excitement of yesterday, Alice has started to settle into her new job. Sadly, she realizes her new colleagues may not be the crack cybersecurity team she was led to believe before joining. Looking through her incident ticketing queue, she noticed a “critical” ticket was never addressed. Shaking her head, she begins to investigate. Apparently, on August 24th, Bob Smith (using a Windows 10 workstation named we8105desk) came back to his desk after working out and found his speakers blaring (click below to listen), his desktop image changed (see below) and his files inaccessible. Alice has seen this before... ransomware. After a quick conversation with Bob, Alice determines that Bob found a USB drive in the parking lot earlier in the day, plugged it into his desktop, and opened up a Word document on the USB drive called "Miranda_Tate_unveiled.dotm". With a resigned sigh, she begins to dig in.
 
 <div align="center">
   <img src="https://github.com/user-attachments/assets/721cf2af-5f8a-43c3-99ef-7bf1833c4111" width="45%" alt="Splunk Intro Evidence"/>
 </div>
 
----
+--- 
 
-## Pre-Engagement — Evidence Review
-Opening malicious artifacts outside a controlled environment is unsafe.  
-To safely inspect the ransomware note and audio memo, we deploy **Windows Sandbox** to extract properties, capture metadata, and prepare for Splunk-based correlation.
-
----
-
-## 📦 Tools Reference
-| Category     | Tool / Feature                     | Purpose                                                     |
-| ------------ | ---------------------------------- | ----------------------------------------------------------- |
-| SIEM         | Splunk                             | Search, detections, evidence timeline                       |
-| Sandbox      | Windows Sandbox / Sandboxie-Plus   | Safe inspection of URLs/files                               |
-| Threat Intel | VirusTotal / AlienVault OTX        | Hash/domain/IP enrichment                                   |
-| Windows      | Sysmon + WinEvent / WinRegistry    | Process/file telemetry; device/USB artifacts                |
-| Parsing      | REX / `stats` / `transaction`      | Extract fields; counts; durations                           |
-
----
+## **Intro to the Ransomware**
+### Your Assignment (Objectives)
+The main goal of this lab is to confirm ransomware activity, trace how it entered the environment, and document the attacker’s path. As the SOC analyst, you must identify the infected host, understand the infection vector, and collect supporting evidence for containment and remediation. By following each step, you will gain experience with Splunk queries, correlation, and building repeatable workflows for incident response.
+- Confirm Cerber encryption activity on the host we8105desk.
+- Trace the attack path: USB → macro → payload → encryption → lateral spread.
+- Identify key IoCs: IPs, filenames, hashes, domains.
+- Document detection, containment, and hardening steps.
+- Practice repeatable detection engineering.
 
 ### Evidence Artifacts
-- **Screenshot**: https://botscontent.netlify.app/v1/cerber-sshot.png  
-- **Voice Memo**: https://botscontent.netlify.app/v1/cerber-sample-voice.mp3  
+The attackers left behind artifacts to intimidate the victim and provide breadcrumbs for the investigation. These serve as both starting points and pivot material in Splunk.
+- **Ransom note screenshot** on the desktop: **Screenshot**: https://botscontent.netlify.app/v1/cerber-sshot.png `Picture 1.1-Picture 1.2`
+- **Voice memo warning**, designed to panic the user: **Voice Memo**: https://botscontent.netlify.app/v1/cerber-sample-voice.mp `Picture 1.3`
+- **USB-delivered Word file:** Miranda_Tate_unveiled.dotm
+- **Desktop wallpaper change** (visual indicator of infection).
 
 <div align="center">
   <img src="https://github.com/user-attachments/assets/9170860e-4d87-461a-ac46-2de721545ddd" width="30%" alt="Picture 1.1"/>
@@ -81,21 +58,41 @@ To safely inspect the ransomware note and audio memo, we deploy **Windows Sandbo
   <i>Picture 1.3 — Audio warning memo</i>
 </p>
 
----
+--- 
 
-# Getting Started — Hunt Setup
+## 🛠️ Hunt Setup & Pre-Engagement  
+Before starting Splunk hunts, I staged my environment and outlined the necessary data sources for the investigation. This preparation ensured that the evidence could be safely reviewed, enriched, and then imported into Splunk for structured analysis.
 
-**Objective:** Confirm Cerber activity on `we8105desk`, trace ingress → payload → spread, and document detections + containment.
+**Prep Work (Safe Evidence Review):**  
+- Used Windows Sandbox and Sandboxie-Plus to inspect the ransom screenshot and audio memo safely.
+- Captured hashes, filenames, and metadata for enrichment using tools like VirusTotal and AlienVault OTX.
+- Logged Indicators of Compromise (IoCs)—including IP addresses, Fully Qualified Domain Names (FQDNs), hashes, and filenames—into a scratchpad for later pivoting.
 
-**Time Window:** **Aug 24, 2016** (00:00–23:59)  
-**Primary Host:** `we8105desk` (expected IP ≈ `192.168.250.100`)  
-**Key Data Sources:** `stream:DNS`, `suricata`, `XmlWinEventLog:Microsoft-Windows-Sysmon/Operational`, `winregistry`  
+**Splunk Hunt Setup:**  
+- **Time Window**: Aug 24, 2016 (00:00–23:59).  
+- **Primary Host**: `we8105desk` (expected IP ≈ `192.168.250.100`).  
+- **Key Data Sources**:  
+  - `stream:DNS` → suspicious domains.  
+  - `suricata` → payload delivery.  
+  - `XmlWinEventLog:Sysmon` → process lineage + encryption activity.  
+  - `winregistry` → USB artifacts + persistence checks.  
+- **Reference Artifacts**: ransom screenshot, audio memo, and USB-delivered file.  
+
 **Pro Tips:**  
-- Lock your Splunk timepicker to **Aug 24, 2016** for all searches.  
-- Save useful searches as **Reports**; convert to **Alerts** later.  
-- Keep a notepad of **IoCs** (domains, hashes, filenames, IPs) as you go.
+- Always lock the **time picker** before pivoting queries.  
+- Use the **fields sidebar** for quick pivots (`src_ip`, `fileinfo.filename`, `ParentProcessId`).  
+- Save useful queries as **Reports** → convert to **Alerts** later.  
+- Build a repeatable **IoC scratchpad** for rapid enrichment and correlation.  
+> 🕵️‍♂️ Happy Hunting!
 
-> 🕵️‍♂️ **Happy Hunting!**
+### 📦 Tools Reference
+| Category     | Tool / Feature                     | Purpose                                                     |
+| ------------ | ---------------------------------- | ----------------------------------------------------------- |
+| SIEM         | Splunk                             | Search, detections, evidence timeline                       |
+| Sandbox      | Windows Sandbox / Sandboxie-Plus   | Safe inspection of URLs/files                               |
+| Threat Intel | VirusTotal / AlienVault OTX        | Hash/domain/IP enrichment                                   |
+| Windows      | Sysmon + WinEvent / WinRegistry    | Process/file telemetry; device/USB artifacts                |
+| Parsing      | REX / `stats` / `transaction`      | Extract fields; counts; durations                           |
 
 ---
 
