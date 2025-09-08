@@ -14,6 +14,11 @@
 
 ---
 
+TL;DR
+- Used Splunk’s SIEM to investigate a website defacement in the BOSS of the SOC v1 dataset by correlating web, auth, and network logs.
+- Identified scanner activity, the uploaded payload, the FQDN used via dynamic DNS, and brute-force activity leading to compromise.
+- Outcome: a repeatable playbook (detections + queries) you can reuse in real incidents.
+
 ## **Scenario**
 On August 24, 2016, Bob Smith’s Windows 10 workstation (**we8105desk**) began blasting audio, changed desktop wallpaper, and locked files—classic signs of **Cerber ransomware**.  
 
@@ -103,15 +108,16 @@ We have the hostname we8105desk, and the attack date is August 24, 2016.
 - We see that 192.168.250.100 was active on that date.
 - We can open the address and see that it belonged to we8105desk on that date, confirming our suspicion.
 - Enter Search: index="botsv1" host=we8105desk
-> Answer guidance: Enter an IPv4 address only, e.g., 192.168.1.10.
 
+Inputs: `host=we8105desk`
+Answer guidance: Enter an IPv4 address only, e.g., 192.168.1.10.
 **SPL**
 ```
 index=botsv1 host=we8105desk earliest=08/24/2016:00:00:00 latest=08/25/2016:00:00:00
 | stats dc(src_ip) as srcs values(src_ip) as ips
 ```
-You can just browse events for that day; confirm src_ip in context.
-- [ ] **Answer:** 192.168.250.100
+Validate: Browse raw events; confirm src_ip in context.
+- [ ] **Answer:** `192.168.250.100`
 
 <img src="https://github.com/user-attachments/assets/58c4723d-a081-4c90-b2b8-42535999a95e" width="40%" alt="Picture 1.4"/>
 
@@ -138,8 +144,9 @@ Amongst the Suricata signatures that detected the Cerber malware, which one aler
 - We can sort it by count since we know we're looking for the fewest occurrences.
 - You could also sort the events by count to find them.
 - Enter Search: index=botsv1 sourcetype=suricata cerber | stats count by alert.signature_id | sort - count
-> Answer guidance: Enter the Suricata signature ID only, e.g., 2816763.
 
+Goal: Among Cerber Suricata signatures, find the least frequent signature ID.
+Answer guidance: Enter the Suricata signature ID only, e.g., 2816763.
 **SPL**
 ```
 index=botsv1 sourcetype=suricata cerber earliest=08/24/2016:00:00:00 latest=08/25/2016:00:00:00
@@ -147,7 +154,8 @@ index=botsv1 sourcetype=suricata cerber earliest=08/24/2016:00:00:00 latest=08/2
 | sort count
 | head 1
 ```
-- [ ] **Answer:** 2816763
+Validate: Open sample events; confirm the ID context.
+- [ ] **Answer:** `2816763`
 
 <img src="https://github.com/user-attachments/assets/a6540b60-2ca3-4528-a0be-ebd99b9d74af" width="30%" alt="Picture 1.8"/>
 
@@ -157,18 +165,15 @@ index=botsv1 sourcetype=suricata cerber earliest=08/24/2016:00:00:00 latest=08/2
 
 ## Ransomware 202 — FQDN Used During Encryption
 What fully qualified domain name (FQDN) does the Cerber ransomware attempt to direct the user to during its encryption phase? <br /> 
-Let's add a DNS filter to our query: "stream: DNS." 
-- We can use your IP address from 200 as the source IP.
-- Enter Search: index=botsv1 sourcetype=stream:DNS src_ip=192.168.250.100
+- Let's add a DNS filter to our query: "stream: DNS." We can use your IP address from 200 as the source IP. Enter Search: index=botsv1 sourcetype=stream:DNS src_ip=192.168.250.100
 - At this point, we see too many entries. We can start adding filters to the legitimate DNS requests. By using the "NOT query="
 - We can add Queries to requests that could be for .local, .arpa, or standard websites. We see the IP addresses used, such as Microsoft's MSN. </b>
-- You can use Google to compare & contrast requests you can add.
-- We can add "| table dest_ip _time query" to show the FQDNs for easier reading.
-- I saw a suspicious FQDN. I opened it and found our suspect.
-- Now that we had what we were looking for, I opened the event and had the attacker's information, date, and event time. 
-- I will save this Search and take a screenshot for future use.
+- You can use Google to compare & contrast requests you can add. - We can add "| table dest_ip _time query" to show the FQDNs for easier reading.
+- I saw a suspicious FQDN. I opened it and found our suspect. Now that we had what we were looking for, I opened the event and had the attacker's information, date, and event time. I will save this Search and take a screenshot for future use.
 - Enter Search: index=botsv1 sourcetype=stream:DNS src_ip=192.168.250.100 NOT query=*.local NOT query=*.arpa  NOT query=*.microsoft.com NOT query=*.msn.com NOT query=*.info query=*.*| table dest_ip _time query
 
+Goal: Identify Cerber’s ransom site FQDN queried during encryption.
+Inputs: src_ip=192.168.250.100, filter benign domains.
 **SPL**
 ```
 index=botsv1 sourcetype=stream:DNS src_ip=192.168.250.100 earliest=08/24/2016:00:00:00 latest=08/25/2016:00:00:00
@@ -176,7 +181,8 @@ index=botsv1 sourcetype=stream:DNS src_ip=192.168.250.100 earliest=08/24/2016:00
 | table _time query dest_ip
 | sort _time
 ```
-- [ ] **Answer:** cerberhhyed5frqa.xmfir0.win
+Validate: Inspect around the encryption timeframe.
+- [ ] **Answer:** `cerberhhyed5frqa.xmfir0.win`
 
 <img src="https://github.com/user-attachments/assets/1e7ffad3-f69e-45b2-997f-b36ad8953d97" width="30%" alt="Picture 1.9"/>
 
@@ -200,6 +206,7 @@ We can follow the timeline in the query until we encounter the first suspicious 
 - Here, we can head to the link to inspect the website. 
 - Use a URL analyzer to look past the network traffic of the FQDN for future use.
 
+Goal: Find the earliest suspicious domain that day.
 **SPL**
 ```
 index=botsv1 sourcetype=stream:DNS src_ip=192.168.250.100 earliest=08/24/2016:00:00:00 latest=08/25/2016:00:00:00
@@ -208,7 +215,8 @@ index=botsv1 sourcetype=stream:DNS src_ip=192.168.250.100 earliest=08/24/2016:00
 | sort 0 _time
 | head 1
 ```
-- [ ] **Answer:** solidaritedeproximite.org
+Validate: Sanity-check with sandbox/URL analyzer (don’t browse on prod).
+- [ ] **Answer:** `solidaritedeproximite.org`
 
 <img src="https://github.com/user-attachments/assets/5c4d0a64-1a7a-45d0-aefb-84e3cf21f94d" width="50%" alt="Picture 2.2"/>
 
@@ -241,13 +249,16 @@ We can start by looking at we8105desk's WinRegistry and filtering for a USB.
 - "https://learn.microsoft.com/en-us/windows-hardware/drivers/usbcon/usb-device-specific-registry-settings." `Link 1.2`. 
 - Enter Search: index=botsv1 sourcetype="winregistry" host=we8105desk friendlyname
 
+Goal: Identify the USB-friendly name Bob inserted.
+Inputs: `host=we8105desk`, `sourcetype=winregistry`
 **SPL**
 ```
 index=botsv1 sourcetype=winregistry host=we8105desk earliest=08/24/2016:00:00:00 latest=08/25/2016:00:00:00 friendlyname
 | table _time host friendlyname data_* registry_path
 | sort _time
 ```
-- [ ] **Answer:** MIRANDA_PRI
+Validate: Confirm the friendly name appears near initial access.
+- [ ] **Answer:** `MIRANDA_PRI`
 
 <img src="https://github.com/user-attachments/assets/4340cc89-034d-406b-9134-828d875446c7" width="30%" alt="Picture 2.6"/>
 
@@ -280,13 +291,15 @@ Bob Smith's workstation `we8105desk` was connected to a file server during the r
 - We can see host = we8105desk is connecting to #192.168.250.20#fileshare
 - Enter Search: index=botsv1 sourcetype="winregistry" host=we8105desk fileshare
 
+Goal: Identify the file server we8105desk connected to during the outbreak.
 **SPL**
 ```
 index=botsv1 sourcetype=winregistry host=we8105desk earliest=08/24/2016:00:00:00 latest=08/25/2016:00:00:00 fileshare
 | table _time host data_*
 | sort _time
 ```
-- [ ] **Answer:** 192.168.250.20
+Validate: Confirm server IP in Registry values.
+- [ ] **Answer:** `192.168.250.20`
 
 <img src="https://github.com/user-attachments/assets/93490f93-0c23-43de-adaf-dde888ff0d59" width="50%" alt="Picture 3.0"/>
 
@@ -304,11 +317,14 @@ We can find the file server's name on the same line where we saw its IP.
 -  | stats dc(Relative_Target_Name)
 - Enter Search: index=botsv1 host=we9041srv *.pdf | stats dc(Relative_Target_Name)
 
+Goal: Count distinct PDFs encrypted on we9041srv.
+Answer guidance: Return a count (integer only).
 **SPL**
 ```
 index=botsv1 host=we9041srv "*.pdf" earliest=08/24/2016:00:00:00 latest=08/25/2016:00:00:00
 | stats dc(Relative_Target_Name) as distinct_pdfs
 ```
+Validate: Sample a few names to confirm they’re unique.
 - [ ] **Answer:** we9041srv or `526`
 
 <img src="https://github.com/user-attachments/assets/a9a5ad65-596d-4b26-a639-ccc70904113b" width="50%" alt="Picture 3.1"/>
@@ -326,15 +342,17 @@ The VBScript found in question 204 launches 121214.tmp. What is the ParentProces
 Since we know the file name, we can return to the query we saved from step 204.
 - Filter the scripts by adding the file name and looking at the parent_process_id field.
 - Enter Search:  index=botsv1 sourcetype="xmlwineventlog:microsoft-windows-sysmon/operational" *.vbs 121214.tmp
-> Answer guidance: Enter the ParentProcessId as an integer, e.g., 3968.
 
+Goal: Find the ParentProcessId that launched 121214.tmp from VBS.
+Answer guidance: Enter PPID as an integer, e.g., 3968.
 **SPL**
 ```
 index=botsv1 sourcetype="XmlWinEventLog:Microsoft-Windows-Sysmon/Operational" ("*.vbs" OR "121214.tmp") earliest=08/24/2016:00:00:00 latest=08/25/2016:00:00:00
 | table _time host Image ParentImage ProcessId ParentProcessId CommandLine
 | sort _time
 ```
-- [ ] **Answer:** 3968
+Validate: Ensure the parent/child chain aligns with the first execution time.
+- [ ] **Answer:** `3968`
 
 <img src="https://github.com/user-attachments/assets/ad3c9595-bfe2-472c-98a3-1c9bb6f5d3c0" width="30%" alt="Picture 3.3"/>
 
@@ -349,13 +367,15 @@ The Cerber ransomware encrypts files located in Bob Smith's Windows profile. How
 - If you want his directory location for the search, click on his directory.
 - Enter Search: index="botsv1" host=we8105desk sourcetype="XmlWinEventLog:Microsoft-Windows-Sysmon/Operational" TargetFilename="C:\\Users\\bob.smith.WAYNECORPINC\\*.txt" | stats dc(TargetFilename)
 
+Goal: Count distinct .txt files encrypted under Bob’s user profile.
 **SPL**
 ```
 index=botsv1 host=we8105desk sourcetype="XmlWinEventLog:Microsoft-Windows-Sysmon/Operational" \
 TargetFilename="C:\\Users\\bob.smith.WAYNECORPINC\\*.txt" earliest=08/24/2016:00:00:00 latest=08/25/2016:00:00:00
 | stats dc(TargetFilename) as distinct_txt
 ```
-- [ ] **Answer:** 406
+Validate: Spot-check a few paths to confirm they’re user-profile files.
+- [ ] **Answer:** `406`
 
 <img src="https://github.com/user-attachments/assets/457b12dc-67f9-4cdd-baec-20592d907094" width="50%" alt="Picture 3.4"/>
 
@@ -370,6 +390,9 @@ The malware downloads a file that contains the Cerber ransomware cryptor code. W
 - Enter Search: index=botsv1 sourcetype=suricata dest_ip="192.168.250.100"  "http.hostname"="solidaritedeproximite.org"
 > Answer guidance: Please include the file name with extension.
 
+Goal: Identify the downloaded file that contains Cerber’s cryptor code.
+Answer guidance: Include the file name with extension, e.g., notepad.exe or favicon.ico.
+
 **SPL**
 ```
 index=botsv1 sourcetype=suricata dest_ip="192.168.250.100" "http.hostname"="solidaritedeproximite.org" earliest=08/24/2016:00:00:00 latest=08/25/2016:00:00:00
@@ -377,7 +400,8 @@ index=botsv1 sourcetype=suricata dest_ip="192.168.250.100" "http.hostname"="soli
 | table _time http.hostname http.uri filename
 | sort _time
 ```
-- [ ] **Answer:** mhtr.jpg
+Validate: Check related Suricata events for the full URI trail.
+- [ ] **Answer:** `mhtr.jpg`
 
 <img src="https://github.com/user-attachments/assets/99ea1310-ba89-40fa-a9e1-94ece3814761" width="40%" alt="Picture 3.5"/>
 
@@ -395,13 +419,15 @@ Now that you know the name of the ransomware's encryptor file, what obfuscation 
 - This type of technique is commonly used. 
 - A quick search can reveal how this kind of file has been decoded in the past. We just needed the URL.
 
+Goal: Infer the obfuscation technique used by the cryptor file.
 **SPL**
 ```
 index=botsv1 sourcetype=suricata dest_ip="192.168.250.100" earliest=08/24/2016:00:00:00 latest=08/25/2016:00:00:00
 | search http.hostname="solidaritedeproximite.org" OR fileinfo.filename=* OR fileinfo.md5=* OR fileinfo.sha256=*
 | table _time http.hostname http.uri fileinfo.filename fileinfo.md5 fileinfo.sha256
 ```
-- [ ] **Answer:** Steganography
+Validate: Enrich the hash in VT/OTX; note image-carrier behavior.
+- [ ] **Answer:** `Steganography`
 
 <img src="https://github.com/user-attachments/assets/be99b708-c5fe-4929-8343-09d6c03a9c6d" width="50%" alt="Picture 3.7"/>
 
