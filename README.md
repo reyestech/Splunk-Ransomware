@@ -6,10 +6,7 @@
 
 # Splunk: Ransomware  
 ### Splunk IR Lab — Cerber Ransomware: Detect, Trace, Contain  
-**Hector M. Reyes | Boss of the SOC**  
-[Google Docs Link | Splunk: Ransomware](https://docs.google.com/document/d/19y3aXtqZZPFv6Lv4ywes7nDzFUVKh1VeDm2lGbytTkc/pub)
-
----
+**Hector M. Reyes | Boss of the SOC** | `02 Feb 2024`
 
 <div align="center">
   <img src="https://github.com/user-attachments/assets/39d8bb3d-2dc3-4579-a89c-526ecf50c487" width="50%" alt="Cerber Ransomware"/>
@@ -79,6 +76,23 @@ To safely inspect the ransomware note and audio memo, we deploy **Windows Sandbo
 </p>
 
 ---
+
+# Getting Started — Hunt Setup
+
+**Objective:** Confirm Cerber activity on `we8105desk`, trace ingress → payload → spread, and document detections + containment.
+
+**Time Window:** **Aug 24, 2016** (00:00–23:59)  
+**Primary Host:** `we8105desk` (expected IP ≈ `192.168.250.100`)  
+**Key Data Sources:** `stream:DNS`, `suricata`, `XmlWinEventLog:Microsoft-Windows-Sysmon/Operational`, `winregistry`  
+**Pro Tips:**  
+- Lock your Splunk timepicker to **Aug 24, 2016** for all searches.  
+- Save useful searches as **Reports**; convert to **Alerts** later.  
+- Keep a notepad of **IoCs** (domains, hashes, filenames, IPs) as you go.
+
+> 🕵️‍♂️ **Happy Hunting!**
+
+---
+
 
 ## Ransomware 200 — Identify Patient-Zero (Host IPv4)
 What was the most likely IPv4 address of we8105desk on 24AUG2016? <br /> 
