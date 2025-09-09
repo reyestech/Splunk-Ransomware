@@ -112,6 +112,7 @@ We have the hostname we8105desk, and the attack date is August 24, 2016.
 
 Inputs: `host=we8105desk`
 > Answer guidance: Enter an IPv4 address only, e.g., 192.168.1.10.
+
 **SPL**
 ```
 index=botsv1 host=we8105desk earliest=08/24/2016:00:00:00 latest=08/25/2016:00:00:00
@@ -148,6 +149,7 @@ Amongst the Suricata signatures that detected the Cerber malware, which one aler
 
 Goal: Among Cerber Suricata signatures, find the least frequent signature ID.
 > Answer guidance: Enter the Suricata signature ID only, e.g., 2816763.
+
 **SPL**
 ```
 index=botsv1 sourcetype=suricata cerber earliest=08/24/2016:00:00:00 latest=08/25/2016:00:00:00
@@ -175,6 +177,7 @@ What fully qualified domain name (FQDN) does the Cerber ransomware attempt to di
 
 Goal: Identify Cerber’s ransom site FQDN queried during encryption.
 Inputs: src_ip=192.168.250.100, filter benign domains.
+
 **SPL**
 ```
 index=botsv1 sourcetype=stream:DNS src_ip=192.168.250.100 earliest=08/24/2016:00:00:00 latest=08/25/2016:00:00:00
@@ -208,6 +211,7 @@ We can follow the timeline in the query until we encounter the first suspicious 
 - Use a URL analyzer to look past the network traffic of the FQDN for future use.
 
 Goal: Find the earliest suspicious domain that day.
+
 **SPL**
 ```
 index=botsv1 sourcetype=stream:DNS src_ip=192.168.250.100 earliest=08/24/2016:00:00:00 latest=08/25/2016:00:00:00
@@ -252,6 +256,7 @@ We can start by looking at we8105desk's WinRegistry and filtering for a USB.
 
 Goal: Identify the USB-friendly name Bob inserted.
 Inputs: `host=we8105desk`, `sourcetype=winregistry`
+
 **SPL**
 ```
 index=botsv1 sourcetype=winregistry host=we8105desk earliest=08/24/2016:00:00:00 latest=08/25/2016:00:00:00 friendlyname
@@ -293,6 +298,7 @@ Bob Smith's workstation `we8105desk` was connected to a file server during the r
 - Enter Search: index=botsv1 sourcetype="winregistry" host=we8105desk fileshare
 
 Goal: Identify the file server we8105desk connected to during the outbreak.
+
 **SPL**
 ```
 index=botsv1 sourcetype=winregistry host=we8105desk earliest=08/24/2016:00:00:00 latest=08/25/2016:00:00:00 fileshare
@@ -320,6 +326,7 @@ We can find the file server's name on the same line where we saw its IP.
 
 Goal: Count distinct PDFs encrypted on we9041srv.
 > Answer guidance: Return a count (integer only).
+
 **SPL**
 ```
 index=botsv1 host=we9041srv "*.pdf" earliest=08/24/2016:00:00:00 latest=08/25/2016:00:00:00
@@ -346,6 +353,7 @@ Since we know the file name, we can return to the query we saved from step 204.
 
 Goal: Find the ParentProcessId that launched 121214.tmp from VBS.
 > Answer guidance: Enter PPID as an integer, e.g., 3968.
+
 **SPL**
 ```
 index=botsv1 sourcetype="XmlWinEventLog:Microsoft-Windows-Sysmon/Operational" ("*.vbs" OR "121214.tmp") earliest=08/24/2016:00:00:00 latest=08/25/2016:00:00:00
@@ -369,6 +377,7 @@ The Cerber ransomware encrypts files located in Bob Smith's Windows profile. How
 - Enter Search: index="botsv1" host=we8105desk sourcetype="XmlWinEventLog:Microsoft-Windows-Sysmon/Operational" TargetFilename="C:\\Users\\bob.smith.WAYNECORPINC\\*.txt" | stats dc(TargetFilename)
 
 Goal: Count distinct .txt files encrypted under Bob’s user profile.
+
 **SPL**
 ```
 index=botsv1 host=we8105desk sourcetype="XmlWinEventLog:Microsoft-Windows-Sysmon/Operational" \
@@ -389,10 +398,10 @@ The malware downloads a file that contains the Cerber ransomware cryptor code. W
 - To get the file name, we head back to Suricata and inspect the network packets. 
 - We can look at the raw text of the suspicious domain we found earlier. We found a .jpg.
 - Enter Search: index=botsv1 sourcetype=suricata dest_ip="192.168.250.100"  "http.hostname"="solidaritedeproximite.org"
-> Answer guidance: Please include the file name with extension.
 
 Goal: Identify the downloaded file that contains Cerber’s cryptor code.
 > Answer guidance: Include the file name with extension, e.g., notepad.exe or favicon.ico.
+
 **SPL**
 ```
 index=botsv1 sourcetype=suricata dest_ip="192.168.250.100" "http.hostname"="solidaritedeproximite.org" earliest=08/24/2016:00:00:00 latest=08/25/2016:00:00:00
@@ -420,6 +429,7 @@ Now that you know the name of the ransomware's encryptor file, what obfuscation 
 - A quick search can reveal how this kind of file has been decoded in the past. We just needed the URL.
 
 Goal: Infer the obfuscation technique used by the cryptor file.
+
 **SPL**
 ```
 index=botsv1 sourcetype=suricata dest_ip="192.168.250.100" earliest=08/24/2016:00:00:00 latest=08/25/2016:00:00:00
