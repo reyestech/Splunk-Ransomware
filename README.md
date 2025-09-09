@@ -111,7 +111,7 @@ We have the hostname we8105desk, and the attack date is August 24, 2016.
 - Enter Search: index="botsv1" host=we8105desk
 
 Inputs: `host=we8105desk`
-Answer guidance: Enter an IPv4 address only, e.g., 192.168.1.10.
+> Answer guidance: Enter an IPv4 address only, e.g., 192.168.1.10.
 **SPL**
 ```
 index=botsv1 host=we8105desk earliest=08/24/2016:00:00:00 latest=08/25/2016:00:00:00
@@ -147,7 +147,7 @@ Amongst the Suricata signatures that detected the Cerber malware, which one aler
 - Enter Search: index=botsv1 sourcetype=suricata cerber | stats count by alert.signature_id | sort - count
 
 Goal: Among Cerber Suricata signatures, find the least frequent signature ID.
-Answer guidance: Enter the Suricata signature ID only, e.g., 2816763.
+> Answer guidance: Enter the Suricata signature ID only, e.g., 2816763.
 **SPL**
 ```
 index=botsv1 sourcetype=suricata cerber earliest=08/24/2016:00:00:00 latest=08/25/2016:00:00:00
@@ -319,7 +319,7 @@ We can find the file server's name on the same line where we saw its IP.
 - Enter Search: index=botsv1 host=we9041srv *.pdf | stats dc(Relative_Target_Name)
 
 Goal: Count distinct PDFs encrypted on we9041srv.
-Answer guidance: Return a count (integer only).
+> Answer guidance: Return a count (integer only).
 **SPL**
 ```
 index=botsv1 host=we9041srv "*.pdf" earliest=08/24/2016:00:00:00 latest=08/25/2016:00:00:00
@@ -345,7 +345,7 @@ Since we know the file name, we can return to the query we saved from step 204.
 - Enter Search:  index=botsv1 sourcetype="xmlwineventlog:microsoft-windows-sysmon/operational" *.vbs 121214.tmp
 
 Goal: Find the ParentProcessId that launched 121214.tmp from VBS.
-Answer guidance: Enter PPID as an integer, e.g., 3968.
+> Answer guidance: Enter PPID as an integer, e.g., 3968.
 **SPL**
 ```
 index=botsv1 sourcetype="XmlWinEventLog:Microsoft-Windows-Sysmon/Operational" ("*.vbs" OR "121214.tmp") earliest=08/24/2016:00:00:00 latest=08/25/2016:00:00:00
@@ -392,8 +392,7 @@ The malware downloads a file that contains the Cerber ransomware cryptor code. W
 > Answer guidance: Please include the file name with extension.
 
 Goal: Identify the downloaded file that contains Cerber’s cryptor code.
-Answer guidance: Include the file name with extension, e.g., notepad.exe or favicon.ico.
-
+> Answer guidance: Include the file name with extension, e.g., notepad.exe or favicon.ico.
 **SPL**
 ```
 index=botsv1 sourcetype=suricata dest_ip="192.168.250.100" "http.hostname"="solidaritedeproximite.org" earliest=08/24/2016:00:00:00 latest=08/25/2016:00:00:00
