@@ -467,20 +467,20 @@ Validate: Enrich the hash in VT/OTX; note image-carrier behavior.
 ---
 
 ## 📚 **Lessons Learned**
-- [ ] **Early DNS pays off:** Filtering benign domains surfaces ransomware infra quickly.  
-     - DNS timelines gave first touchpoints before heavy encryption noise appeared.
-- [ ] **Process lineage matters:** Parent/child chains cut through endpoint noise.  
-     - VBS → TMP → encryptor established causality you can act on.
-- [ ] **Velocity > volume:** Write-rate spikes + new extensions are high-signal.  
-     - Baselines made the abnormal file creation jumps obvious.
-- [ ] **Registry is gold for ingress:** USB artifacts confirmed the lure.  
-     - Friendly-name keys tied the story together.
-- [ ] **Quantify impact:** Distinct files encrypted on shares guide triage/comms.  
-     - Counts per host/share prioritize isolation and recovery.
-- [ ] **Repeatability wins:** Turn ad-hoc hunts into alerts/dashboards & RBA.  
-     - Codifying detections shrinks MTTR and improves consistency.
-- [ ] **Evidence discipline:** IoCs + screenshots + exact times enable audits & clean handoffs.  
-     - Makes IR documentation and lessons-learned actionable.
+1. **Early DNS pays off:** Filtering benign domains surfaces ransomware infra quickly.
+   - [ ] `DNS timelines gave first touchpoints before heavy encryption noise appeared.`
+2. **Process lineage matters:** Parent/child chains cut through endpoint noise.
+   - [ ] `VBS → TMP → encryptor established causality you can act on.`
+3. **Velocity > volume:** Write-rate spikes + new extensions are high-signal.
+   - [ ] `Baselines made the abnormal file creation jumps obvious.`
+4. **Registry is gold for ingress:** USB artifacts confirmed the lure.
+   - [ ] `Friendly-name keys tied the story together.`
+7. **Quantify impact:** Distinct files encrypted on shares guide triage/comms.
+   - [ ] `Counts per host/share prioritize isolation and recovery.`
+8. **Repeatability wins:** Turn ad-hoc hunts into alerts/dashboards & RBA.
+   - [ ] `Codifying detections shrinks MTTR and improves consistency.`
+9. **Evidence discipline:** IoCs + screenshots + exact times enable audits & clean handoffs.
+    - [ ] `Makes IR documentation and lessons-learned actionable.`
 
 ---
 
