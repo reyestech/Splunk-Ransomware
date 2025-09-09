@@ -90,15 +90,15 @@ Before starting Splunk hunts, I staged my environment and outlined the necessary
 - Build a repeatable **IoC scratchpad** for rapid enrichment and correlation.  
 
 ### 📦 Tools Reference
-| Category     | Tool / Feature                     | Purpose                                                     |
-| ------------ | ---------------------------------- | ----------------------------------------------------------- |
-| SIEM         | Splunk                             | Search, detections, evidence timeline                       |
-| Sandbox      | Windows Sandbox / Sandboxie-Plus   | Safe inspection of URLs/files                               |
-| Threat Intel | VirusTotal / AlienVault OTX        | Hash/domain/IP enrichment                                   |
-| Windows      | Sysmon + WinEvent / WinRegistry    | Process/file telemetry; device/USB artifacts                |
-| Parsing      | REX / `stats` / `transaction`      | Extract fields; counts; durations                           |
+| **Category**     | **Tool / Feature**                 | **Purpose**                                  |
+| ---------------- | ---------------------------------- | -------------------------------------------- |
+| **SIEM**         | Splunk                             | Search, detections, evidence timeline        |
+| **Sandbox**      | Windows Sandbox / Sandboxie-Plus   | Safe inspection of URLs/files                |
+| **Threat Intel** | VirusTotal / AlienVault OTX        | Hash/domain/IP enrichment                    |
+| **Windows**      | Sysmon + WinEvent / WinRegistry    | Process/file telemetry; device/USB artifacts |
+| **Parsing**      | REX / `stats` / `transaction`      | Extract fields; counts; durations            |
 
-> 🕵️‍♂️ Happy Hunting!
+> 🕵️‍♂️ **Happy Hunting!**
 <img src="https://github.com/user-attachments/assets/da0a82ab-1698-4051-bc22-1460114541c9" width="70%" alt="Graph 11"/>
 
 ---
@@ -449,8 +449,8 @@ Validate: Enrich the hash in VT/OTX; note image-carrier behavior.
 ---
 
 ## 🔄 **Recap — Step by Step**
-| Phase                     | Implementation                                                       | Purpose                                   |
-| ------------------------ | -------------------------------------------------------------------- | ----------------------------------------- |
+| **Phase**                    | **Implementation**                                                   | **Purpose**                               |
+| ---------------------------- | -------------------------------------------------------------------- | ----------------------------------------- |
 | **Bound the Window**         | Mark first alert/user report + last known-good for `we8105desk`      | Keep searches tight and relevant          |
 | **Identify Patient-Zero**    | Confirm host/IP (e.g., `we8105desk` → `192.168.250.100`)             | Anchor the hunt to a single endpoint      |
 | **Early DNS Signals**        | Timeline suspicious FQDNs (filter benign *.local/*.arpa/MS domains)  | Catch ransomware infra early              |
@@ -458,7 +458,7 @@ Validate: Enrich the hash in VT/OTX; note image-carrier behavior.
 | **Process Lineage**          | Sysmon chain (e.g., `VBScript → 121214.tmp`, capture PPID)           | Tie execution to parent/child processes   |
 | **Encryption Signals**       | Spikes in file creates/renames + new extensions in user profile      | Confirm active encryption on host         |
 | **Lateral Movement / SMB**   | File-server access (e.g., `we9041srv`) + distinct files encrypted    | Measure spread and business impact        |
-| **Removable Media Evidence** | WinRegistry artifacts (USB friendly name like `MIRANDA_PRI`)          | Validate initial vector (USB lure)        |
+| **Removable Media Evidence** | WinRegistry artifacts (USB friendly name like `MIRANDA_PRI`)         | Validate initial vector (USB lure)        |
 | **Collect IoCs & Evidence**  | FQDNs, IPs, hashes, filenames, screenshots, exact timestamps         | Support containment and post-mortems      |
 | **Contain & Recover**        | Isolate host, block IoCs, disable accounts, restore from backups     | Stop spread and return to good state      |
 | **Harden**                   | DNS egress rules, ASR/AppLocker, macro blocking, least-priv SMB      | Reduce recurrence / shrink attack surface |
