@@ -4,7 +4,7 @@
 
 ---
 
-# Splunk: Ransomware  
+# Splunk SOC Lab: Ransomware 
 ### Splunk IR Lab — Cerber Ransomware: Detect, Trace, Contain  
 **Hector M. Reyes | Boss of the SOC** | `02 Feb 2024`
 
@@ -85,7 +85,6 @@ Before starting Splunk hunts, I staged my environment and outlined the necessary
 - Use the **fields sidebar** for quick pivots (`src_ip`, `fileinfo.filename`, `ParentProcessId`).  
 - Save useful queries as **Reports** → convert to **Alerts** later.  
 - Build a repeatable **IoC scratchpad** for rapid enrichment and correlation.  
-> 🕵️‍♂️ Happy Hunting!
 
 ### 📦 Tools Reference
 | Category     | Tool / Feature                     | Purpose                                                     |
@@ -96,6 +95,7 @@ Before starting Splunk hunts, I staged my environment and outlined the necessary
 | Windows      | Sysmon + WinEvent / WinRegistry    | Process/file telemetry; device/USB artifacts                |
 | Parsing      | REX / `stats` / `transaction`      | Extract fields; counts; durations                           |
 
+> 🕵️‍♂️ Happy Hunting!
 <img src="https://github.com/user-attachments/assets/da0a82ab-1698-4051-bc22-1460114541c9" width="70%" alt="Graph 11"/>
 
 ---
