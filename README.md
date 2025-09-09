@@ -24,7 +24,9 @@ Key skills:
 
 # **Scenario**
 
-After the excitement of yesterday, Alice has started to settle into her new job. Sadly, she realizes her new colleagues may not be the crack cybersecurity team she was led to believe before joining. Looking through her incident ticketing queue, she noticed a “critical” ticket was never addressed. Shaking her head, she begins to investigate. Apparently, on August 24th, Bob Smith (using a Windows 10 workstation named we8105desk) came back to his desk after working out and found his speakers blaring (click below to listen), his desktop image changed (see below) and his files inaccessible. Alice has seen this before... ransomware. After a quick conversation with Bob, Alice determines that Bob found a USB drive in the parking lot earlier in the day, plugged it into his desktop, and opened up a Word document on the USB drive called "Miranda_Tate_unveiled.dotm". With a resigned sigh, she begins to dig in.
+After the excitement of yesterday, Alice has started to settle into her new job. Sadly, she realizes her new colleagues may not be the crack cybersecurity team she was led to believe before joining. Looking through her incident ticketing queue, she noticed a “critical” ticket was never addressed. Shaking her head, she begins to investigate. Apparently, on August 24th, Bob Smith (using a Windows 10 workstation named we8105desk) came back to his desk after working out and found his speakers blaring (click below to listen), his desktop image changed (see below), and his files inaccessible. 
+
+Alice has seen this before... ransomware. After a quick conversation with Bob, Alice determines that Bob found a USB drive in the parking lot earlier in the day, plugged it into his desktop, and opened up a Word document on the USB drive called "Miranda_Tate_unveiled.dotm". With a resigned sigh, she begins to dig in.
 
 <div align="center">
   <img src="https://github.com/user-attachments/assets/721cf2af-5f8a-43c3-99ef-7bf1833c4111" width="45%" alt="Splunk Intro Evidence"/>
@@ -32,21 +34,22 @@ After the excitement of yesterday, Alice has started to settle into her new job.
 
 --- 
 
-# **Intro to the Ransomware**
-### Your Assignment (Objectives)
+# **INTRO TO THE RANSOMWARE☠️**
+## Your Assignment (Objectives)
 The main goal of this lab is to confirm ransomware activity, trace how it entered the environment, and document the attacker’s path. As the SOC analyst, you must identify the infected host, understand the infection vector, and collect supporting evidence for containment and remediation. By following each step, you will gain experience with Splunk queries, correlation, and building repeatable workflows for incident response.
-- Confirm Cerber encryption activity on the host we8105desk.
-- Trace the attack path: USB → macro → payload → encryption → lateral spread.
-- Identify key IoCs: IPs, filenames, hashes, domains.
-- Document detection, containment, and hardening steps.
-- Practice repeatable detection engineering.
+1. **Artifact Confirmation**: Confirm Cerber encryption activity on the host `we8105desk` (visual/audio indicators + file impact).
+2. **Attack Path Analysis**: Trace infection chain - USB lure → Word macro → payload → encryption → lateral spread.
+3. **Attribution of Findings**: Identify attacker infrastructure (IPs, filenames, hashes, domains) to tie activity to Cerber ransomware.
+4. **Containment & Hardening**: Document detection steps, containment measures, and hardening recommendations.
+5. **Detection Engineering**: Build repeatable Splunk searches/playbooks to operationalize detection for future incidents.
 
 ### Evidence Artifacts
 The attackers left behind artifacts to intimidate the victim and provide breadcrumbs for the investigation. These serve as both starting points and pivot material in Splunk.
-- **Ransom note screenshot** on the desktop: **Screenshot**: https://botscontent.netlify.app/v1/cerber-sshot.png `Picture 1.1-Picture 1.2`
-- **Voice memo warning**, designed to panic the user: **Voice Memo**: https://botscontent.netlify.app/v1/cerber-sample-voice.mp `Picture 1.3`
-- **USB-delivered Word file:** Miranda_Tate_unveiled.dotm
-- **Desktop wallpaper change** (visual indicator of infection).
+
+1. **Ransom note screenshot** - left on the victim's desktop as proof of encryption. https://botscontent.netlify.app/v1/cerber-sample-voice.mp `Picture 1.3`
+2. **Voice memo warning** - an audio file designed to scare the victim into making mistakes. https://botscontent.netlify.app/v1/cerber-sample-voice.mp `Picture 1.3`
+3. **Malicious Word document** - delivered via USB and opened by Bob Smith. `Word file: Miranda_Tate_unveiled.dotm`
+4. **Desktop wallpaper change** - a visible signal of system compromise and encryption.
 
 <div align="center">
   <img src="https://github.com/user-attachments/assets/9170860e-4d87-461a-ac46-2de721545ddd" width="30%" alt="Picture 1.1"/>
@@ -448,18 +451,18 @@ Validate: Enrich the hash in VT/OTX; note image-carrier behavior.
 ## 🔄 **Recap — Step by Step**
 | Phase                     | Implementation                                                       | Purpose                                   |
 | ------------------------ | -------------------------------------------------------------------- | ----------------------------------------- |
-| Bound the Window         | Mark first alert/user report + last known-good for `we8105desk`      | Keep searches tight and relevant          |
-| Identify Patient-Zero    | Confirm host/IP (e.g., `we8105desk` → `192.168.250.100`)             | Anchor the hunt to a single endpoint      |
-| Early DNS Signals        | Timeline suspicious FQDNs (filter benign *.local/*.arpa/MS domains)  | Catch ransomware infra early              |
-| Payload Delivery         | Correlate Suricata/HTTP → cryptor fetch (e.g., `mhtr.jpg`)           | Prove how the encryptor arrived           |
-| Process Lineage          | Sysmon chain (e.g., `VBScript → 121214.tmp`, capture PPID)           | Tie execution to parent/child processes   |
-| Encryption Signals       | Spikes in file creates/renames + new extensions in user profile      | Confirm active encryption on host         |
-| Lateral Movement / SMB   | File-server access (e.g., `we9041srv`) + distinct files encrypted    | Measure spread and business impact        |
-| Removable Media Evidence | WinRegistry artifacts (USB friendly name like `MIRANDA_PRI`)          | Validate initial vector (USB lure)        |
-| Collect IoCs & Evidence  | FQDNs, IPs, hashes, filenames, screenshots, exact timestamps         | Support containment and post-mortems      |
-| Contain & Recover        | Isolate host, block IoCs, disable accounts, restore from backups     | Stop spread and return to good state      |
-| Harden                   | DNS egress rules, ASR/AppLocker, macro blocking, least-priv SMB      | Reduce recurrence / shrink attack surface |
-| Operationalize           | Saved searches, alerts/dashboards, backup validation & runbook       | Make response repeatable and faster       |
+| **Bound the Window**         | Mark first alert/user report + last known-good for `we8105desk`      | Keep searches tight and relevant          |
+| **Identify Patient-Zero**    | Confirm host/IP (e.g., `we8105desk` → `192.168.250.100`)             | Anchor the hunt to a single endpoint      |
+| **Early DNS Signals**        | Timeline suspicious FQDNs (filter benign *.local/*.arpa/MS domains)  | Catch ransomware infra early              |
+| **Payload Delivery**         | Correlate Suricata/HTTP → cryptor fetch (e.g., `mhtr.jpg`)           | Prove how the encryptor arrived           |
+| **Process Lineage**          | Sysmon chain (e.g., `VBScript → 121214.tmp`, capture PPID)           | Tie execution to parent/child processes   |
+| **Encryption Signals**       | Spikes in file creates/renames + new extensions in user profile      | Confirm active encryption on host         |
+| **Lateral Movement / SMB**   | File-server access (e.g., `we9041srv`) + distinct files encrypted    | Measure spread and business impact        |
+| **Removable Media Evidence** | WinRegistry artifacts (USB friendly name like `MIRANDA_PRI`)          | Validate initial vector (USB lure)        |
+| **Collect IoCs & Evidence**  | FQDNs, IPs, hashes, filenames, screenshots, exact timestamps         | Support containment and post-mortems      |
+| **Contain & Recover**        | Isolate host, block IoCs, disable accounts, restore from backups     | Stop spread and return to good state      |
+| **Harden**                   | DNS egress rules, ASR/AppLocker, macro blocking, least-priv SMB      | Reduce recurrence / shrink attack surface |
+| **Operationalize**           | Saved searches, alerts/dashboards, backup validation & runbook       | Make response repeatable and faster       |
 
 ---
 
