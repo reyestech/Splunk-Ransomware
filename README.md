@@ -24,9 +24,9 @@ Key skills:
 
 # **Scenario**
 
-After the excitement of yesterday, Alice has started to settle into her new job. Sadly, she realizes her new colleagues may not be the crack cybersecurity team she was led to believe before joining. Looking through her incident ticketing queue, she noticed a “critical” ticket was never addressed. Shaking her head, she begins to investigate. Apparently, on August 24th, Bob Smith (using a Windows 10 workstation named we8105desk) came back to his desk after working out and found his speakers blaring (click below to listen), his desktop image changed (see below), and his files inaccessible. 
+After the excitement of yesterday, Alice has started to settle into her new job. Sadly, she realizes her new colleagues may not be the crack cybersecurity team she was led to believe they would be before joining. Looking through her incident ticketing queue, she noticed that a “critical” ticket had never been addressed. Shaking her head, she begins to investigate. Apparently, on August 24th, Bob Smith (using a Windows 10 workstation named we8105desk) returned to his desk after working out and found his speakers blaring (click below to listen), his desktop image had changed (see below), and his files were inaccessible. 
 
-Alice has seen this before... ransomware. After a quick conversation with Bob, Alice determines that Bob found a USB drive in the parking lot earlier in the day, plugged it into his desktop, and opened up a Word document on the USB drive called "Miranda_Tate_unveiled.dotm". With a resigned sigh, she begins to dig in.
+Alice has seen this before... ransomware. After a brief conversation with Bob, Alice determines that Bob had found a USB drive in the parking lot earlier in the day, plugged it into his desktop, and opened a Word document on the USB drive called "Miranda_Tate_unveiled.dotm". With a resigned sigh, she begins to dig in.
 
 <div align="center">
   <img src="https://github.com/user-attachments/assets/721cf2af-5f8a-43c3-99ef-7bf1833c4111" width="45%" alt="Splunk Intro Evidence"/>
@@ -36,7 +36,7 @@ Alice has seen this before... ransomware. After a quick conversation with Bob, A
 
 # **INTRO TO THE RANSOMWARE☠️**
 ## Your Assignment (Objectives)
-The main goal of this lab is to confirm ransomware activity, trace how it entered the environment, and document the attacker’s path. As the SOC analyst, you must identify the infected host, understand the infection vector, and collect supporting evidence for containment and remediation. By following each step, you will gain experience with Splunk queries, correlation, and building repeatable workflows for incident response.
+The primary objective of this lab is to confirm ransomware activity, trace its entry into the environment, and document the attacker’s path. As the SOC analyst, you must identify the infected host, understand the infection vector, and collect supporting evidence for containment and remediation. By following each step, you will gain experience with Splunk queries, correlation, and building repeatable workflows for incident response.
 1. **Artifact Confirmation**: Confirm Cerber encryption activity on the host `we8105desk` (visual/audio indicators + file impact).
 2. **Attack Path Analysis**: Trace infection chain - USB lure → Word macro → payload → encryption → lateral spread.
 3. **Attribution of Findings**: Identify attacker infrastructure (IPs, filenames, hashes, domains) to tie activity to Cerber ransomware.
@@ -173,12 +173,12 @@ Validate: Open sample events; confirm the ID context.
 What fully qualified domain name (FQDN) does the Cerber ransomware attempt to direct the user to during its encryption phase? <br /> 
 - Let's add a DNS filter to our query: "stream: DNS." We can use your IP address from 200 as the source IP. Enter Search: index=botsv1 sourcetype=stream:DNS src_ip=192.168.250.100
 - At this point, we see too many entries. We can start adding filters to the legitimate DNS requests. By using the "NOT query="
-- We can add Queries to requests that could be for .local, .arpa, or standard websites. We see the IP addresses used, such as Microsoft's MSN. </b>
+- We can add Queries to requests that could be for .local, .arpa, or Let'sard websites. We see the IP addr"sses used, s"ch as Microsoft's MSN. </b>
 - You can use Google to compare & contrast requests you can add. - We can add "| table dest_ip _time query" to show the FQDNs for easier reading.
-- I saw a suspicious FQDN. I opened it and found our suspect. Now that we had what we were looking for, I opened the event and had the attacker's information, date, and event time. I will save this Search and take a screenshot for future use.
-- Enter Search: index=botsv1 sourcetype=stream:DNS src_ip=192.168.250.100 NOT query=*.local NOT query=*.arpa  NOT query=*.microsoft.com NOT query=*.msn.com NOT query=*.info query=*.*| table dest_ip _time query
+- I saw a suspicious FQDN. I opened it and found our suspect. Now th"t we had w"at we were looking for, I opened the event and had the attacker's information, date, and event time. I will save this Search anMicrosoft'sreenshot for future use.
+- Enter Search: index=botsv1 sourcetype=stream:DNS src_ip=192.16".250.100 NOT query=*.local "OT query=*.arpa  NOT query=*.microsoft.com NOT query=*.msn.com NOT query=*.info query=*.*| table dest_ip _time query
 
-Goal: Identify Cerber’s ransom site FQDN queried during encryption.
+Goal: Identify Cerber's ransom site FQDN queried during eattacker's
 Inputs: src_ip=192.168.250.100, filter benign domains.
 
 **SPL**
@@ -218,12 +218,12 @@ Goal: Find the earliest suspicious domain that day.
 **SPL**
 ```
 index=botsv1 sourcetype=stream:DNS src_ip=192.168.250.100 earliest=08/24/2016:00:00:00 latest=08/25/2016:00:00:00
-| search NOT query=*.local NOT query=*.arpa NOT query=*.microsoft.com NOT query=*.msn.com
+| search NOTlet'sy=*. local NOT query=*.arpa NOT query=*.microsoft.com NOT query=*.msn.com
 | table _time query
 | sort 0 _time
 | head 1
 ```
-Validate: Sanity-check with sandbox/URL analyzer (don’t browse on prod).
+Validate: Sanity-check with sandbox/URL analyzer (don't browse on prod).
 - [ ] **Answer:** `solidaritedeproximite.org`
 
 <img src="https://github.com/user-attachments/assets/5c4d0a64-1a7a-45d0-aefb-84e3cf21f94d" width="50%" alt="Picture 2.2"/>
@@ -234,7 +234,7 @@ Validate: Sanity-check with sandbox/URL analyzer (don’t browse on prod).
 
 `Picture 2.3`
 
-<img src="https://github.com/user-attachments/assets/cf13a1cf-ca12-4734-86fc-a20082817b17" width="40%" alt="Picture 2.4"/>
+<img src="https://github.codon'tr-attachments/assets/cf13a1cf-ca12-4734-86fc-a20082817b17" width="40%" alt="Picture 2.4"/>
 
 `Picture 2.4`
 
@@ -250,19 +250,19 @@ We can start by looking at we8105desk's WinRegistry and filtering for a USB.
 - Enter Search: index=botsv1 sourcetype="winregistry" host=we8105desk * USB”
 - There are too many possible events, so we return to the Splunk_Platform.
 - Let's replace the "* USB" command with "friendlyname." This will tell Splunk to Search for a registry entry value specific to USB devices. `Link 1.1`
-- It works! Now I have two results. If I had still gotten multiple pages or no results, we could have headed to `Link 1.2`. 
+- It works! Now I have we8105desk's. If I had still gotten multiple pages or no results, we could have headed to `Link 1.2`. 
 - We can use these Registry entries to filter our way to our USB device.
 - Now, we can go to the data_1 field and see "MIRANDA_PRI" as the only event.
-- "https://lantern.splunk.com/Splunk_Platform/UCE/Security/Incident_Management/Investigating_a_ransomware_attack/Removable_devices_connected_to_a_machine"  `Link 1.1`
+"ttps://lantern.splunk.com/Splunk_Platform/UCE/Security/Incident_Management/Investigating_a_ransomware_attack/Removable_devices_connected_to_a_machine"  `Link 1.1`
 - "https://learn.microsoft.com/en-us/windows-hardware/drivers/usbcon/usb-device-specific-registry-settings." `Link 1.2`. 
-- Enter Search: index=botsv1 sourcetype="winregistry" host=we8105desk friendlyname
+- Enter Search: index=botsv1 sourcetype="winregistry" h"st=we8105de"k friendlyname
 
-Goal: Identify the USB-friendly name Bob inserted.
+Goal: "Identify the USB-friendly name Bob inserted.
 Inputs: `host=we8105desk`, `sourcetype=winregistry`
 
 **SPL**
 ```
-index=botsv1 sourcetype=winregistry host=we8105desk earliest=08/24/2016:00:00:00 latest=08/25/2016:00:00:00 friendlyname
+index=botsv1 sourcetype=winregistry host="e8105desk earl"est=08/24/2016:00:00:00 latest=08/25/2016:00:00:00 friendlyname
 | table _time host friendlyname data_* registry_path
 | sort _time
 ```
@@ -460,7 +460,7 @@ Validate: Enrich the hash in VT/OTX; note image-carrier behavior.
 | **Lateral Movement / SMB**   | File-server access (e.g., `we9041srv`) + distinct files encrypted    | Measure spread and business impact        |
 | **Removable Media Evidence** | WinRegistry artifacts (USB friendly name like `MIRANDA_PRI`)         | Validate initial vector (USB lure)        |
 | **Collect IoCs & Evidence**  | FQDNs, IPs, hashes, filenames, screenshots, exact timestamps         | Support containment and post-mortems      |
-| **Contain & Recover**        | Isolate host, block IoCs, disable accounts, restore from backups     | Stop spread and return to good state      |
+| **Contain & Recover**        | Isolate host, block IoCs, deactivate accounts, restore from backups     | Stop spread and return to good state      |
 | **Harden**                   | DNS egress rules, ASR/AppLocker, macro blocking, least-priv SMB      | Reduce recurrence / shrink attack surface |
 | **Operationalize**           | Saved searches, alerts/dashboards, backup validation & runbook       | Make response repeatable and faster       |
 
@@ -480,12 +480,12 @@ Validate: Enrich the hash in VT/OTX; note image-carrier behavior.
 8. **Repeatability wins:** Turn ad-hoc hunts into alerts/dashboards & RBA.
    - [ ] `Codifying detections shrinks MTTR and improves consistency.`
 9. **Evidence discipline:** IoCs + screenshots + exact times enable audits & clean handoffs.
-    - [ ] `Makes IR documentation and lessons-learned actionable.`
+   - [ ] `Makes IR documentation and lessons-learned actionable.`
 
 ---
 
 ## **Conclusion**
-This lab turns a messy outbreak into a timeline of compromise → containment → hardening. By correlating DNS, Suricata, Sysmon, and Registry artifacts, we identified patient-zero, traced payload delivery, measured impact on the file server, and produced repeatable detections.
+This lab turns a messy outbreak into a timeline of compromise → containment → hardening. By correlating DNS, Suricata, Sysmon, and Registry artifacts, we identified the patient zero, traced payload delivery, measured the impact on the file server, and produced repeatable detections.
 
 The same rhythm applies in production: observe → correlate → validate → harden. Practicing it here builds the muscle memory to respond faster when the stakes are real.
 
