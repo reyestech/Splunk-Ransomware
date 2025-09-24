@@ -6,7 +6,7 @@
 
 # Splunk SOC Lab: Ransomware 
 ### Splunk IR Lab — Cerber Ransomware: Detect, Trace, Contain  
-**Hector M. Reyes | Boss of the SOC** | `02 Feb 2024`
+**Hector M. Reyes | Boss of the SOC**
 
 <div align="center">
   <img src="https://github.com/user-attachments/assets/39d8bb3d-2dc3-4579-a89c-526ecf50c487" width="50%" alt="Cerber Ransomware"/>
